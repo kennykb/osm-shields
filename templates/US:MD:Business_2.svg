@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="48"
+   height="48"
+   id="svg2"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="US:MD:Business_2.svg">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1598"
+     inkscape:window-height="1182"
+     id="namedview12"
+     showgrid="true"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="16.895833"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2991"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <g
+     id="g3220">
+    <g
+       id="g3211">
+      <path
+         d="m 1.0625,4.054371 c 0,-1.6524627 1.3394954,-2.9918574 2.9918464,-2.9918574 l 39.8912906,0 c 1.652353,0 2.991847,1.3393947 2.991847,2.9918574 l 0,39.891273 c 0,1.652462 -1.339494,2.991856 -2.991847,2.991856 l -39.8912906,0 C 2.4019954,46.9375 1.0625,45.598106 1.0625,43.945644 l 0,-39.891273 z"
+         style="fill:#006e55;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.01994565px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path1341"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 4.0568159,2.0624144 39.8863671,0 c 1.101431,0 1.994317,0.8504516 1.994317,1.89995 l 0,9.9751356 -43.875002,0 0,-9.9751356 c 0,-1.0494984 0.8928867,-1.89995 1.9943179,-1.89995 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.01946597px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path10350"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 2.0626707,16.062516 43.8746433,0 0,27.814718 c 0,1.138053 -0.892875,2.060266 -1.9943,2.060266 l -39.8860417,0 c -1.1014223,0 -1.9943016,-0.922213 -1.9943016,-2.060266 l 0,-27.814718 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.02027053px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path1343"
+         inkscape:connector-curvature="0" />
+    </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3920"
+       y="11"
+       x="24"
+       style="font-size:8.95522404px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#006e55;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+       xml:space="preserve"><tspan
+         y="11"
+         x="24"
+         id="tspan3218"
+         sodipodi:role="line">BUSINESS</tspan></text>
+  </g>
+  <g
+     id="layer1"
+     transform="matrix(0.01994794,0,0,0.01994769,0.0625,0.062952)" />
+  <text
+     x="23.999887"
+     y="42.000198"
+     style="font-size:32.83597565px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#006e55;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+     id="text1327"
+     xml:space="preserve"
+     sodipodi:linespacing="100%"
+     transform="scale(1.0000047,0.9999953)"><tspan
+       sodipodi:role="line"
+       id="tspan3228">%num%</tspan></text>
+</svg>

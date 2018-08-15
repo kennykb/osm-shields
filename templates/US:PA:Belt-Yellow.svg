@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="48"
+   height="48"
+   id="svg2"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="US:PA:Belt-Yellow.svg">
+  <metadata
+     id="metadata3046">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1278"
+     inkscape:window-height="1006"
+     id="namedview3044"
+     showgrid="true"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="17.104167"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3048"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <g
+     id="g3811">
+    <rect
+       ry="2.867188"
+       rx="2.8671885"
+       y="1"
+       x="1"
+       height="46"
+       width="46"
+       id="rect3809"
+       style="fill:#ffffff;fill-opacity:1;stroke:none" />
+    <path
+       d="M 3.0000001,1 C 1.892,1 1,1.892 1,3 l 0,42 c 0,1.108 0.892,2 2.0000001,2 L 44.999999,47 C 46.108,47 47,46.108 47,45 L 47,3 C 47,1.892 46.108,1 44.999999,1 L 3.0000001,1 z m 0,1 41.9999989,0 c 0.554,0 1.000002,0.446 1.000002,1 l 0,42 c 0,0.553999 -0.446002,1 -1.000002,1 L 3.0000001,46 c -0.5540001,0 -1,-0.446001 -1,-1 l 0,-42 c 0,-0.554 0.4459999,-1 1,-1 z"
+       id="rect2385"
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       inkscape:connector-curvature="0" />
+  </g>
+  <path
+     inkscape:connector-curvature="0"
+     style="fill:#f7d117;fill-opacity:1;stroke:#000000;stroke-width:0.50001883999999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+     id="path2390"
+     d="m 34.750406,23.999707 a 10.749991,10.746587 0 1 1 -21.499981,0 10.749991,10.746587 0 1 1 21.499981,0 z" />
+  <text
+     xml:space="preserve"
+     style="font-size:11.94029808px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+     x="23.983288"
+     y="11.985384"
+     id="text3823"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan4427"
+       x="23.879257"
+       y="11.985384"
+       style="letter-spacing:-0.10403121">YELLOW</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:11.94029808px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+     x="23.972326"
+     y="44.024361"
+     id="text3827"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3829"
+       x="23.972326"
+       y="44.024361">BELT</tspan></text>
+</svg>

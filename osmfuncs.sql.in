@@ -1,0 +1,33 @@
+------------------------------------------------------------------------
+--
+-- Function: osm_get_tag_value
+--
+--	Retrieves the value of a tag given the array of tags in
+--      a row from one of the osm2pgsql slim tables, and a tag name
+--
+-- Parameters:
+--	tags - Tag array
+--      tag - Tag name
+--
+-- Results:
+--	Returns the value of the tag, or NULL if the tag is not found
+--
+------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION osm_get_tag_value(tags TEXT[], tag TEXT)
+RETURNS TEXT
+IMMUTABLE
+RETURNS NULL ON NULL INPUT
+LANGUAGE plpgsql
+AS $osm_get_tag_value$
+DECLARE
+  tag_index INTEGER;
+BEGIN
+  SELECT i INTO tag_index
+    FROM (SELECT generate_subscripts(tags, 1) AS i) AS indices
+    WHERE i % 2 = 1 AND tags[i] = tag;
+  RETURN tags[tag_index + 1];
+END;
+$osm_get_tag_value$
+
+\g

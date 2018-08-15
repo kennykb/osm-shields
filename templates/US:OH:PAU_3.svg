@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="64"
+   height="48"
+   id="svg3607"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="US:OH:PAU_3.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1598"
+     inkscape:window-height="1182"
+     id="namedview17"
+     showgrid="true"
+     inkscape:zoom="20.666667"
+     inkscape:cx="32"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3607"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid7665"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3609" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.20475563;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     id="rect3617"
+     y="1.1023685"
+     x="1.1023778"
+     height="45.795254"
+     width="61.795235" />
+  <rect
+     style="color:#000000;fill:#006a4d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     id="rect3776"
+     y="3"
+     x="3"
+     ry="0.84000003"
+     rx="0.84363633"
+     height="42"
+     width="58" />
+  <text
+     x="31.932924"
+     y="34.635803"
+     id="text4136"
+     xml:space="preserve"
+     style="font-size:39.99999989px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;letter-spacing:-2.16360902999999993px;writing-mode:lr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C"
+     sodipodi:linespacing="100%"
+     transform="scale(1.0187001,0.98164318)"><tspan
+       sodipodi:role="line"
+       id="tspan7696">%num%</tspan></text>
+  <text
+     x="31.823263"
+     y="-6.0033426"
+     id="text4140"
+     xml:space="preserve"
+     style="font-size:1.2750417px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.10625347px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+     sodipodi:linespacing="100%"
+     transform="scale(1.0005542,0.99944608)"><tspan
+       x="31.823263"
+       y="-6.0033426"
+       id="tspan4142"
+       style="stroke-width:0.10625347" /></text>
+  <text
+     x="31.982275"
+     y="42.023277"
+     id="text4144-7"
+     xml:space="preserve"
+     style="font-size:5.00000002px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C"
+     sodipodi:linespacing="100%"
+     transform="scale(1.0005542,0.9994461)"><tspan
+       sodipodi:role="line"
+       id="tspan3098">%mod% COUNTY</tspan></text>
+</svg>

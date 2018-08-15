@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="32"
+   height="48"
+   id="svg3607"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="US:OH:LOG:Pleasant_2.5.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1598"
+     inkscape:window-height="1182"
+     id="namedview17"
+     showgrid="true"
+     inkscape:zoom="20.666667"
+     inkscape:cx="16"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3607">
+    <inkscape:grid
+       type="xygrid"
+       id="grid7811"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3609" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke:none"
+     id="rect4130"
+     y="1"
+     x="1"
+     ry="1.4680851"
+     rx="1.4516128"
+     height="46"
+     width="30" />
+  <rect
+     style="color:#000000;fill:#006a4d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     id="rect3776"
+     y="2"
+     x="2"
+     ry="0.64705884"
+     rx="0.63636363"
+     height="44"
+     width="28" />
+  <text
+     x="16"
+     y="39"
+     id="text4136"
+     xml:space="preserve"
+     style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series B;-inkscape-font-specification:Roadgeek 2005 Series B"
+     sodipodi:linespacing="100%"><tspan
+       sodipodi:role="line"
+       id="tspan7820">%num%</tspan></text>
+  <text
+     x="15.919506"
+     y="20.933315"
+     id="text4140"
+     xml:space="preserve"
+     style="font-size:0.6400001px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.05333334px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+     sodipodi:linespacing="100%"><tspan
+       x="15.919506"
+       y="20.933315"
+       id="tspan4142"
+       style="stroke-width:0.05333334" /></text>
+  <text
+     sodipodi:linespacing="100%"
+     style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series B;-inkscape-font-specification:Roadgeek 2005 Series B"
+     xml:space="preserve"
+     id="text3026"
+     y="10"
+     x="16"><tspan
+       sodipodi:role="line"
+       id="tspan7978">%mod%</tspan></text>
+  <text
+     x="16"
+     y="17"
+     id="text3034"
+     xml:space="preserve"
+     style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series B;-inkscape-font-specification:Roadgeek 2005 Series B"
+     sodipodi:linespacing="100%"><tspan
+       x="16"
+       y="17"
+       id="tspan3036"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Roadgeek 2005 Series B;-inkscape-font-specification:Roadgeek 2005 Series B;text-anchor:middle;text-align:center;writing-mode:lr;line-height:100%">TOWNSHIP</tspan></text>
+</svg>

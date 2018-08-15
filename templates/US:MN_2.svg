@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="48"
+   height="48"
+   id="svg1489"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="US:MN_2.svg">
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Minnesota State Route marker</dc:title>
+        <dc:date>2006-09-29</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Philipp Moore</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>PublicDomain</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:subject>
+          <rdf:Bag />
+        </dc:subject>
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="1198"
+     inkscape:window-width="1598"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.25"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:current-layer="svg1489"
+     showgrid="true"
+     inkscape:showpageshadow="false"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2992"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1492" />
+  <g
+     id="g3777">
+    <g
+       id="g3773">
+      <rect
+         width="46"
+         height="46"
+         rx="2.6696324"
+         ry="2.6696324"
+         x="1"
+         y="1"
+         style="color:#000000;fill:#f7d117;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5.17299986;marker:none;visibility:visible;display:inline;overflow:visible"
+         id="yellow_ground" />
+      <path
+         style="color:#000000;fill:#003882;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5.17299986;marker:none;visibility:visible;display:inline;overflow:visible"
+         d="m 2.014791,16.664972 c 0.013966,9.424833 -0.084122,18.859599 0.092293,28.278077 0.3612199,0.918365 1.5167587,1.188706 2.3996213,1.00061 13.4748397,-0.05414 26.9572927,0.111495 40.4272787,-0.08878 0.922668,-0.370847 1.199794,-1.505388 1.009179,-2.391635 C 45.915663,33.30885 45.971673,23.15439 45.940663,13 c -14.640961,0 -29.28192,0 -43.9228803,0 -9.614e-4,1.221627 -0.00192,2.443253 -0.00288,3.66488 z"
+         id="blue_heart"
+         inkscape:connector-curvature="0" />
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#003882;fill-opacity:1"
+       d="M 2.6703127,7.54312 2.636767,6.922528 2.5025866,6.385816 2.3684062,5.396224 2.3348604,4.675 2.20068,4.423408 l -0.117408,-0.369 0,-0.754752 L 2.13359,3.014512 2,2.614552 l 2.2106223,0.0024 0.023712,-0.604848 0.047438,-0.012 0.1660392,0.03552 0.14232,0.05928 0.059302,0.403248 0.10674,0.450672 0.1186008,0.11856 0.3557988,0 0.023712,0.1068 0.4625396,0.024 0,0.15408 0.3557997,0 0.023712,-0.0948 0.083018,-0.08304 0.1660392,-0.04752 0.094882,0.07128 0.21348,0 0.2846405,0.18984 0.3913788,0.17784 0.1779,0.03552 0.03558,-0.07128 0.10674,-0.03552 0.03558,0.2136 0.1897608,0.0948 0.03558,-0.03552 0.094879,0.012 0,0.15408 0.1897608,0.07128 0.2253384,0 0.1186008,-0.05928 0.2371992,-0.23712 0.1897584,-0.03552 0.059302,0.13056 0.03558,0.0948 0.07116,0 0.07116,-0.05928 0.6522997,-0.024 0.130461,0.22536 0.04744,0 0.05235,-0.07944 0.325727,-0.02712 -0.04491,0.16728 -0.288959,0.13488 -0.6783033,0.29796 -0.3502925,0.14712 -0.2253408,0.18984 -0.1779,0.260928 -0.1660392,0.28464 -0.1304592,0.05928 -0.3320801,0.36768 -0.094882,0.012 -0.2818368,0.21528 -0.2066232,0.23184 -0.016776,0.21792 0.016656,0.570648 -0.1171632,0.11736 -0.3857688,0.301776 -0.1344264,0.419448 0.1847424,0.267624 0.033667,0.1848 -0.08423,0.21816 -0.016656,0.268488 0.033547,0.519696 0.2513424,0.301296 0.2182896,0 0.1841304,0.16824 0.2349384,0.10008 0.2684844,0.36936 0.5199492,0.368496 0.134304,0.15144 L 8.7764723,11.251 7.2660808,11.3014 2.8460158,11.335 2.8212248,8.717632 2.7876798,8.499712 2.4857732,8.24812 2.4019102,8.11396 l 0,-0.11736 L 2.552863,7.87924 2.6534995,7.77868 2.6702735,7.54396 z"
+       id="blue_state_gylph" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3001"
+       y="9.5"
+       x="28"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#003882;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C"
+       xml:space="preserve"><tspan
+         y="9.5"
+         x="28"
+         id="tspan3003"
+         sodipodi:role="line">MINNESOTA</tspan></text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+     x="24"
+     y="39"
+     id="text2998"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3789">%num%</tspan></text>
+</svg>

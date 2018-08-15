@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 12.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 51448)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   width="48"
+   height="48"
+   viewBox="0 0 48 48"
+   overflow="visible"
+   enable-background="new 0 0 385 385"
+   xml:space="preserve"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="US:IL_2.svg"
+   style="overflow:visible"><metadata
+   id="metadata78"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
+   id="defs76">
+	
+	
+	
+	
+</defs><sodipodi:namedview
+   inkscape:window-height="1198"
+   inkscape:window-width="1598"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   guidetolerance="10.0"
+   gridtolerance="10.0"
+   objecttolerance="10.0"
+   borderopacity="1.0"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   id="base"
+   inkscape:zoom="19.916667"
+   inkscape:cx="24"
+   inkscape:cy="24"
+   inkscape:window-x="1"
+   inkscape:window-y="1"
+   inkscape:current-layer="Layer_1"
+   showgrid="true"
+   inkscape:showpageshadow="false"
+   inkscape:window-maximized="0"><inkscape:grid
+     type="xygrid"
+     id="grid3004"
+     empspacing="5"
+     visible="true"
+     enabled="true"
+     snapvisiblegridlinesonly="true" /></sodipodi:namedview>
+<g
+   id="g3021"><g
+     transform="matrix(0.12392251,0,0,0.12392251,0.14494678,0.14494678)"
+     id="g19">
+		<g
+   id="g21">
+			<path
+   d="M 6.8999023,24.5 C 6.8999023,14.779785 14.779785,6.8999023 24.5,6.8999023 h 336 c 9.7207,0 17.59961,7.8798827 17.59961,17.6000977 v 336 c 0,9.7207 -7.87891,17.59961 -17.59961,17.59961 h -336 c -9.720215,0 -17.6000977,-7.87891 -17.6000977,-17.59961 v -336 l 0,0 z"
+   id="path23"
+   inkscape:connector-curvature="0" />
+			<path
+   d="M 192.5,192.5"
+   id="path25"
+   inkscape:connector-curvature="0" />
+		</g>
+	</g><g
+     transform="matrix(0.125,0,0,0.125,-0.0625,-0.0625)"
+     id="g27">
+		<g
+   id="g29">
+			<path
+   d="m 16.5,24.5 c 0,-4.418457 3.581543,-8 8,-8 h 336 c 4.41797,0 8,3.581543 8,8 v 336 c 0,4.41797 -3.58203,8 -8,8 h -336 c -4.418457,0 -8,-3.58203 -8,-8 v -336 l 0,0 z"
+   id="path31"
+   inkscape:connector-curvature="0"
+   style="fill:#ffffff" />
+			<path
+   d="M 192.5,192.5"
+   id="path33"
+   inkscape:connector-curvature="0"
+   style="fill:#ffffff" />
+		</g>
+	</g></g><text
+   xml:space="preserve"
+   style="font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+   x="24"
+   y="12"
+   id="text3065"
+   sodipodi:linespacing="125%"><tspan
+     sodipodi:role="line"
+     id="tspan3067"
+     x="24"
+     y="12">ILLINOIS</tspan></text>
+
+
+
+
+
+<text
+   xml:space="preserve"
+   style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C"
+   x="24"
+   y="40"
+   id="text3088"
+   sodipodi:linespacing="125%"><tspan
+     sodipodi:role="line"
+     id="tspan3031">%num%</tspan></text>
+
+
+
+</svg>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="60"
+   height="48"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.1 r9760"
+   version="1.0"
+   sodipodi:docname="US:OR_4.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 456 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="773 : 456 : 1"
+       inkscape:persp3d-origin="386.5 : 304 : 1"
+       id="perspective3821" />
+    <inkscape:perspective
+       id="perspective3039"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3286"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="16.895833"
+     inkscape:cx="30"
+     inkscape:cy="24"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1278"
+     inkscape:window-height="996"
+     inkscape:window-x="1"
+     inkscape:window-y="27"
+     showgrid="true"
+     showborder="true"
+     inkscape:showpageshadow="false"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3001"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-376.27898,-417.89579)">
+    <g
+       id="g3132">
+      <path
+         d="m 406.29467,464.89579 c -26.133,-6.02215 -29.56661,-24.78997 -28.95233,-31.83999 1.159,-7.98767 5.75717,-13.7485 28.95233,-14.16001 20.18205,0.58258 27.09857,4.42818 28.95232,14.16001 0.54487,10.7311 -5.74041,26.65255 -28.95232,31.83999 z"
+         id="path3027"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="path2479"
+         d="m 406.29414,463.89579 c -25.23186,-5.76032 -28.54707,-23.71215 -27.95398,-30.45564 1.11904,-7.64038 5.55865,-13.15074 27.95398,-13.54436 19.48611,0.55725 26.16413,4.23565 27.95396,13.54436 0.52608,10.26453 -5.54247,25.49374 -27.95396,30.45564 z" />
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       id="path1435"
+       d=""
+       style="fill:#a8e50a" />
+    <text
+       xml:space="preserve"
+       style="font-size:31.99999984px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Roadgeek 2005 Series B;-inkscape-font-specification:Roadgeek 2005 Series B"
+       x="406.27792"
+       y="448.89694"
+       id="routenum"
+       sodipodi:linespacing="100%"
+       transform="scale(1.0000026,0.99999741)"><tspan
+         sodipodi:role="line"
+         id="tspan3066">%num%</tspan></text>
+  </g>
+</svg>

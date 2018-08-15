@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="48"
+   height="48"
+   id="svg2"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="US:IN-Toll_Road.svg">
+  <metadata
+     id="metadata29">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1598"
+     inkscape:window-height="1198"
+     id="namedview27"
+     showgrid="true"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="21"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3006"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <g
+     id="g3811">
+    <path
+       d="m 47.000003,23.99999 a 23.000001,23.000001 0 0 1 -46.0000015,0 23.000001,23.000001 0 1 1 46.0000015,0 z"
+       id="path2830"
+       style="fill:#006e55;fill-opacity:1;stroke:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 46.250016,24.00211 a 22.250016,22.250016 0 0 1 -44.5000317,0 22.250016,22.250016 0 1 1 44.5000317,0 z"
+       id="path3604"
+       style="fill:none;stroke:#ffffff;stroke-width:0.49996816999999999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 36.881628,23.999991 a 12.881626,12.881626 0 0 1 -25.763252,0 12.881626,12.881626 0 1 1 25.763252,0 z"
+       id="path3606"
+       style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     id="g3816">
+    <path
+       sodipodi:nodetypes="cccccccccccccccsssccccccccc"
+       inkscape:connector-curvature="0"
+       id="path4240"
+       d="m 10.729866,18.754471 c -1.205977,-0.06968 -3.3430006,-0.266707 -3.9312521,-0.253872 -0.084035,0.0019 -0.1292692,0.0055 -0.1403434,0.0175 -0.088593,0.09569 -1.0471994,0.656361 -1.7893808,0.350863 -0.2552127,0.147624 -0.1889433,0.373787 -0.2105151,0.473661 l -0.3859449,6.034782 c -0.087417,0.06617 -0.2003727,0.166811 -0.2105155,0.263146 -0.010147,0.09633 0.1464918,0.248271 0.1052582,0.438575 -0.1315174,-0.03856 -0.2165106,0.114368 -0.2806878,0.210512 0.029853,0.225283 -0.1112026,0.472454 0.1052581,0.666634 -0.2239359,0.03541 -0.4522777,0.08186 -0.4736599,0.421029 0.1499786,0.172692 0.1056548,0.336055 0.052631,0.508746 -0.6890821,0.658462 -0.5613747,1.274081 -0.5613747,1.508698 0.1952401,-0.07698 0.3597894,-0.145171 0.4912024,-0.122804 0.2137594,-0.02976 0.3487223,0.05459 0.649089,0.228059 0.4072509,-0.235126 0.5137496,-0.181514 0.7368039,-0.175428 0.3436251,0.0093 0.439294,0.06532 0.6490889,0.122793 0.2097951,0.05756 0.3646881,-0.230214 0.5789174,-0.298221 0.2695243,-0.08555 0.493998,0.01058 0.7718895,-0.08769 0.2778914,-0.0983 0.3584944,-0.48836 0.5262886,-0.771887 0.3846666,-0.08727 0.613177,-0.329631 0.8069769,-0.578919 l 1.2280056,0.05262 c 0.5639157,-0.123587 0.8461757,-0.276122 0.8420607,-0.561372 -0.0044,-0.285245 -0.169898,-0.348135 -0.263146,-0.508746 0.124522,-0.03111 0.09384,-0.210765 0,-0.22806 0.03017,-0.404679 0.315775,-0.467158 0.315775,-0.912233 l 0.350857,-6.157567"
+       style="fill:#ffffff;fill-opacity:1;stroke:none" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3803"
+       y="25.5"
+       x="7.3998904"
+       style="font-size:7px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#006e55;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+       xml:space="preserve"><tspan
+         y="25.5"
+         x="7.3998904"
+         id="tspan3805"
+         sodipodi:role="line">E</tspan></text>
+  </g>
+  <g
+     id="g3821">
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       d="m 44.999867,18.754471 c -1.205977,-0.06968 -3.343001,-0.266707 -3.931252,-0.253872 -0.08404,0.0019 -0.12927,0.0055 -0.140344,0.0175 -0.08859,0.09569 -1.047199,0.656361 -1.789381,0.350863 -0.255212,0.147624 -0.188943,0.373787 -0.210515,0.473661 l -0.385945,6.034782 c -0.08742,0.06617 -0.200372,0.166811 -0.210515,0.263146 -0.01015,0.09633 0.146492,0.248271 0.105258,0.438575 -0.131517,-0.03856 -0.21651,0.114368 -0.280688,0.210512 0.02985,0.225283 -0.111202,0.472454 0.105258,0.666634 -0.223935,0.03541 -0.452277,0.08186 -0.473659,0.421029 0.149978,0.172692 0.105654,0.336055 0.05263,0.508746 -0.689082,0.658462 -0.561375,1.274081 -0.561375,1.508698 0.19524,-0.07698 0.359789,-0.145171 0.491202,-0.122804 0.21376,-0.02976 0.348723,0.05459 0.649089,0.228059 0.407251,-0.235126 0.51375,-0.181514 0.736804,-0.175428 0.343625,0.0093 0.439294,0.06532 0.649089,0.122793 0.209795,0.05756 0.364688,-0.230214 0.578917,-0.298221 0.269525,-0.08555 0.493999,0.01058 0.77189,-0.08769 0.277891,-0.0983 0.358494,-0.48836 0.526289,-0.771887 0.384666,-0.08727 0.613177,-0.329631 0.806977,-0.578919 l 1.228005,0.05262 c 0.563916,-0.123587 0.846176,-0.276122 0.842061,-0.561372 -0.0044,-0.285245 -0.169898,-0.348135 -0.263146,-0.508746 0.124522,-0.03111 0.09384,-0.210765 0,-0.22806 0.03017,-0.404679 0.315775,-0.467158 0.315775,-0.912233 l 0.350857,-6.157567"
+       id="path3801"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccsssccccccccc" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3807"
+       y="25.5"
+       x="41.794155"
+       style="font-size:7px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#006e55;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+       xml:space="preserve"><tspan
+         y="25.5"
+         x="41.794155"
+         id="tspan3809"
+         sodipodi:role="line">W</tspan></text>
+  </g>
+  <path
+     style="fill:none;stroke:none;stroke-width:0.07576144000000000;stroke-miterlimit:4;stroke-opacity:1"
+     d="M 4.4538348,32.257135 C 5.5272819,34.795049 7.0805824,37.080582 9,39 c 3.838835,3.838835 9.142136,6.213203 15,6.213203 5.857864,0 11.161165,-2.374368 15,-6.213203 1.919418,-1.919418 3.472718,-4.204951 4.546165,-6.742865"
+     id="path3860"
+     inkscape:connector-curvature="0"
+     inkscape:transform-center-y="14.735169" />
+  <path
+     style="fill:none;stroke:none;stroke-width:0.05000000000000000;stroke-miterlimit:4;stroke-opacity:1"
+     d="m 11.100189,18.550568 c 0.708439,-1.674937 1.733565,-3.183312 3.000316,-4.450064 C 16.634007,11.567003 20.134007,9.9999999 24,9.9999999 c 3.865993,0 7.365993,1.5670031 9.899495,4.1005041 1.266751,1.266752 2.291877,2.775127 3.000316,4.450064"
+     id="path3828" />
+  <text
+     xml:space="preserve"
+     style="font-size:10.50000000000000000px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C;writing-mode:lr"
+     id="text3830"
+     sodipodi:linespacing="125%"><textPath
+       xlink:href="#path3828"
+       startOffset="50%"
+       id="textPath3862"><tspan
+   id="tspan3832"
+   style="-inkscape-font-specification:Roadgeek 2005 Series C;font-family:Roadgeek 2005 Series C;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:10.50000000000000000px;text-anchor:middle;text-align:center;writing-mode:lr;line-height:125%;stroke:none">INDIANA</tspan></textPath></text>
+  <text
+     xml:space="preserve"
+     style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C"
+     id="text3834"
+     sodipodi:linespacing="125%"><textPath
+       xlink:href="#path3860"
+       startOffset="50%"
+       id="textPath3879"><tspan
+   id="tspan3836"
+   style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:1.16402113;writing-mode:lr-tb;text-anchor:middle;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C">TOLL ROAD</tspan></textPath></text>
+  <flowRoot
+     xml:space="preserve"
+     id="flowRoot3845"
+     style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Roadgeek 2005 Series B;font-style:normal;font-weight:normal;font-size:6px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:Roadgeek 2005 Series B;font-stretch:normal;font-variant:normal;text-anchor:middle;text-align:center"><flowRegion
+       id="flowRegion3847"><rect
+         id="rect3849"
+         width="25.142857"
+         height="7.6666665"
+         x="10.285714"
+         y="11.333333" /></flowRegion><flowPara
+       id="flowPara3851"></flowPara></flowRoot></svg>

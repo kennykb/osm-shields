@@ -1,0 +1,137 @@
+-- shieldtables.sql.in -
+--
+--	Creates tables that track the membership of highways in route
+--      relations, and procedures and triggers to keep the tables up
+--	to date.
+--
+-- This file must have the '@PREFIX@' substituted with the table name
+-- prefix for the OSM tables, for instance 'planet_osm'. Thus, a
+-- typical invocation would be:
+--
+-- sed s/@PREFIX@/planet_osm/ < make_routetable.sql.in | psql -d gis
+--
+-- Copyright (c) 2018 by Kevin B. Kenny
+--
+-- Refer to the file, 'license.terms' for information on usage and
+-- redistribution of this file, and for a DISCLAIMER OF ALL
+-- WARRANTIES.
+--
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+--
+-- Make the 'shieldroute' table, which enumerates route relations.
+--
+------------------------------------------------------------------------
+
+\echo Create @PREFIX@_shieldroute table
+
+DROP TABLE @PREFIX@_shieldroute CASCADE
+\g
+
+CREATE TABLE @PREFIX@_shieldroute(
+    relid    BIGINT PRIMARY KEY,   -- Relation ID
+    route    TEXT,                 -- route=*
+    network  TEXT,                 -- network=* tag
+    "ref"    TEXT                  -- ref=* tag
+)
+\g
+
+------------------------------------------------------------------------
+--
+-- Make the 'shieldway' table, which enumerates the members of a route
+-- relation along with their roles.
+
+\echo Create @PREFIX@_shieldway table
+
+DROP TABLE @PREFIX@_shieldway CASCADE
+\g
+
+CREATE TABLE @PREFIX@_shieldway(
+    relid    BIGINT,               -- Relation ID
+    idx      INT NOT NULL,         -- Position of the way in the relation
+    wayid    BIGINT,               -- ID of the way
+    "role"   TEXT                  -- Role of the way in the relation
+)
+\g
+
+-- Populate the 'shieldroute' table from the 'rels' table. Select
+-- only certain route relations.
+
+\echo Populate @PREFIX@_shieldroute with route relations
+
+INSERT INTO @PREFIX@_shieldroute(relid, route, network, "ref")
+SELECT r.id AS relid,
+       osm_get_tag_value(r.tags, 'route') AS route,
+       osm_get_tag_value(r.tags, 'network') AS network,
+       osm_get_tag_value(r.tags, 'ref') AS "ref"
+FROM @PREFIX@_rels r
+WHERE osm_get_tag_value(r.tags, 'type') = 'route'
+AND osm_get_tag_value(r.tags, 'route') in
+       ('road', 'hiking', 'foot', 'bicycle',
+        'horse', 'ski', 'snowmobile')
+\g
+
+-- Now, populate shieldway with the route members. Begin by enumerating the
+-- routes.
+
+\echo Populate @PREFIX@_shieldway with route members
+
+WITH q1 AS (
+    SELECT r.id, r.way_off, r.rel_off,
+           generate_subscripts(parts,1) AS idx,
+	   parts,
+	   members
+    FROM @PREFIX@_shieldroute rt
+    JOIN @PREFIX@_rels r
+    ON r.id = rt.relid
+),
+
+-- Break out the members into individual rows
+    
+q2 AS (
+    SELECT
+          q1.id AS relid,
+   	  q1.idx,
+          q1.parts[q1.idx] AS wayid,
+   	  q1.members[2*q1.idx] AS "role"
+    FROM q1
+    WHERE q1.idx >= q1.way_off+1 AND q1.idx <= q1.rel_off
+
+)
+
+-- Downselect to eliminate links, stops, platforms and guideposts, and
+-- add to the route.
+
+INSERT INTO @PREFIX@_shieldway(relid, idx, wayid, "role")
+SELECT relid, idx, wayid, "role"
+FROM q2
+WHERE ("role" is null
+       OR ("role" <> 'link'
+           AND "role" NOT LIKE '%stop%'
+           AND "role" NOT LIKE '%platform%'
+           AND "role" NOT LIKE '%guidepost%'))
+
+\g
+
+-- Now that the 'shieldway' table is constructed, make its indices
+-- all in one go.
+
+\echo Create indices on @PREFIX@_shieldway
+
+ALTER TABLE @PREFIX@_shieldway
+ADD CONSTRAINT pk_@PREFIX@_shieldroute
+PRIMARY KEY (relid, idx)
+
+\g
+
+ALTER TABLE @PREFIX@_shieldway
+ADD CONSTRAINT fk_@PREFIX@_shieldway_route
+FOREIGN KEY(relid) REFERENCES @PREFIX@_shieldroute(relid)
+ON DELETE CASCADE
+\g
+
+CREATE INDEX idx_@PREFIX@_shieldway_way
+ON @PREFIX@_shieldway(wayid, relid, idx)
+
+\g

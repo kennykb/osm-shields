@@ -1,0 +1,16 @@
+DROP TABLE osm_shield_graphics
+\g
+
+CREATE TABLE osm_shield_graphics(
+    id SERIAL PRIMARY KEY,
+    route TEXT,
+    network TEXT,
+    "ref" TEXT,
+    "size" INT,
+    filename TEXT
+)
+\g
+
+CREATE UNIQUE INDEX idx_osm_shield_graphics_nwrs
+ON osm_shield_graphics(route, network, "ref", "size")
+\g

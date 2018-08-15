@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="60"
+   height="48"
+   id="svg2"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="US:MD_3.svg">
+  <metadata
+     id="metadata3105">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1598"
+     inkscape:window-height="1182"
+     id="namedview3103"
+     showgrid="true"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="16.895833"
+     inkscape:cx="30"
+     inkscape:cy="24"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3107"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="1px" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <g
+     id="g3052">
+    <g
+       id="g3047">
+      <path
+         d="m 1.0625,4.0543709 c 0,-1.6524622 1.3402509,-2.9918574 2.9935337,-2.9918574 l 51.8879223,0 c 1.653283,0 2.993533,1.3393952 2.993533,2.9918574 l 0,39.8912751 c 0,1.652461 -1.34025,2.991854 -2.993533,2.991854 l -51.8879223,0 C 2.4027509,46.9375 1.0625,45.598107 1.0625,43.945646 l 0,-39.8912751 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.01995132px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path1341"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 4.0576342,2.0624144 51.8839268,0 c 1.102107,0 1.995539,0.8504511 1.995539,1.8999483 l 0,9.9751373 -55.8750016,0 0,-9.9751373 c 0,-1.0494972 0.8934319,-1.8999483 1.9955358,-1.8999483 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.01947194px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path10350"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 2.062499,16.064482 55.874661,0 0,27.811042 c 0,1.137903 -0.893427,2.059994 -1.995527,2.059994 l -51.8836107,0 c -1.1020969,0 -1.9955233,-0.922091 -1.9955233,-2.059994 l 0,-27.811042 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.02027543px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path1343"
+         inkscape:connector-curvature="0" />
+    </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3040"
+       y="11"
+       x="30"
+       style="font-size:8.95522404px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+       xml:space="preserve"><tspan
+         y="11"
+         x="30"
+         id="tspan3042"
+         sodipodi:role="line">MARYLAND</tspan></text>
+  </g>
+  <g
+     id="layer1"
+     transform="matrix(0.01995833,0,0,0.01994774,0.0625,0.06289)" />
+  <text
+     x="29.992048"
+     y="42.011139"
+     style="font-size:32.84452804px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Roadgeek 2005 Series B;-inkscape-font-specification:Roadgeek 2005 Series B"
+     id="text2908"
+     xml:space="preserve"
+     sodipodi:linespacing="100%"
+     transform="scale(1.0002652,0.99973488)"><tspan
+       sodipodi:role="line"
+       id="tspan3064">%num%</tspan></text>
+</svg>

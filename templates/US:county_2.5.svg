@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="48"
+   height="48"
+   viewBox="0 0 47.887917 47.999948"
+   id="Layer_1"
+   xml:space="preserve"
+   style="overflow:visible"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="US:county_2.svg"><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1278"
+   inkscape:window-height="1006"
+   id="namedview15"
+   showgrid="true"
+   inkscape:showpageshadow="false"
+   inkscape:zoom="17.104167"
+   inkscape:cx="24"
+   inkscape:cy="24"
+   inkscape:window-x="1"
+   inkscape:window-y="1"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1"><inkscape:grid
+     type="xygrid"
+     id="grid2992"
+     empspacing="5"
+     visible="true"
+     enabled="true"
+     snapvisiblegridlinesonly="true" /></sodipodi:namedview><metadata
+   id="metadata54"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs52">
+	
+	
+	
+	
+</defs>
+<g
+   id="g2996"><path
+     d="M 10.62398,46.999949 1.1429026,14.118933 C 1.013375,13.669516 0.94398342,13.194742 0.94398342,12.703794 c 0,-2.146866 1.32669458,-3.9845199 3.20672048,-4.7415533 L 19.150787,1.9248904 c 1.480538,-0.5964627 3.098406,-0.92489157 4.793171,-0.92489157 1.694714,0 3.312585,0.32842887 4.79317,0.92489157 l 15.000085,6.0373503 c 1.880025,0.7570334 3.206721,2.5946873 3.206721,4.7415533 0,0.490948 -0.06934,0.965722 -0.19892,1.415139 l -9.481079,32.881016 -26.639955,0 0,0 z"
+     id="path5"
+     style="fill:#f7d117;fill-opacity:1;fill-rule:evenodd;stroke:none"
+     inkscape:connector-curvature="0" /><path
+     d="m 1.9439823,12.586173 c 0,-1.646829 1.0169632,-3.059348 2.4629569,-3.6414926 L 19.565329,2.8443922 c 1.350793,-0.5441182 2.828134,-0.8443945 4.378629,-0.8443945 1.550496,0 3.027884,0.3002763 4.378579,0.8443945 l 15.158339,6.1002882 c 1.446043,0.5821446 2.463059,1.9946636 2.463059,3.6414926 0,0.379051 -0.05349,0.743428 -0.152584,1.087278 l -9.322391,32.326499 -25.049953,0 L 2.0965647,13.673451 C 1.9974722,13.32965 1.9439823,12.965224 1.9439823,12.586173 z"
+     id="path9"
+     style="fill:#003882;fill-rule:evenodd"
+     inkscape:connector-curvature="0" /></g>
+
+
+<text
+   x="23.909193"
+   y="34.049404"
+   transform="scale(1.0014541,0.99854802)"
+   id="text1361"
+   xml:space="preserve"
+   style="font-size:23.9999739px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#f7d117;fill-opacity:1;font-family:Roadgeek 2005 Series C;-inkscape-font-specification:Roadgeek 2005 Series C"
+   sodipodi:linespacing="100%"><tspan
+     sodipodi:role="line"
+     id="tspan3027">%num%</tspan></text>
+
+
+
+
+
+<text
+   x="23.91736"
+   y="14.015554"
+   transform="scale(1.0011121,0.99888913)"
+   id="text1375"
+   xml:space="preserve"
+   style="font-size:5.96122384px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr;text-anchor:middle;fill:#f7d117;fill-opacity:1;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"
+   sodipodi:linespacing="100%"><tspan
+     sodipodi:role="line"
+     id="tspan3004">%mod%</tspan></text>
+
+
+
+
+
+<text
+   x="23.91877"
+   y="43.045238"
+   transform="scale(1.0010531,0.99894801)"
+   id="text1389"
+   xml:space="preserve"
+   style="font-size:5.75473261px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#f7d117;fill-opacity:1;font-family:Roadgeek 2005 Series D"
+   sodipodi:linespacing="125%"><tspan
+     x="23.91877"
+     y="43.045238"
+     id="tspan1391">COUNTY</tspan></text>
+
+
+
+
+
+</svg>
