@@ -254,6 +254,8 @@ proc routeGraphics::readTemplate {template} {
 
 proc routeGraphics::getSVGName {network ref} {
     variable ::tmpDir
+    # Sanitize the file name
+    set ref [string map {/ :} $ref]
     return [file join $tmpDir $network $ref.svg]
 }
 
@@ -261,6 +263,8 @@ proc routeGraphics::getPNGName {network ref size} {
     variable ::pngDir
     set dir [file join $pngDir default $size $network]
     file mkdir $dir
+    # Sanitize the file name
+    set ref [string map {/ :} $ref]
     return [file join $dir $ref.png]
 }
 
@@ -492,10 +496,6 @@ proc routeGraphics::make_pngs {network ref} {
 
     variable didRoute
     variable sawUnknownNetwork
-
-    # Sanitize file name separators
-    
-    set ref [string map {/ :} $ref]
 
     if {[dict exists $didRoute $network $ref]} {
 	return
@@ -1734,7 +1734,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    # divided. Slashes in the route number have been converted to colons
 
 	    set mod [string toupper [lindex $nwparts 1]]
-	    if {[regexp {(.*):(.*)} $ref -> num suf]} {
+	    if {[regexp {(.*)/(.*)} $ref -> num suf]} {
 		set pat circle:fraction.svg
 	    } else {
 		set pat [findGenericTemplate circle $ref]
@@ -1799,8 +1799,7 @@ routeGraphics::launchInkscape
 
 set seenNetwork {}
 set need {}
-set routesForWay {}
-set fileForRoute {}
+set processedRoute {}
 set reported {}
 set n 0
 db foreach row [string map [list @PREFIX@ $prefix] {
@@ -1828,19 +1827,9 @@ db foreach row [string map [list @PREFIX@ $prefix] {
     set highway {}
     set wayid {}
     dict with row {
-	set nw [string map {
-	    CAPE_MAY		{CAPE MAY}
-	} [string toupper $network]]
-	set rf [string map {/ :} [string toupper $ref]]
-	if {![dict exists $fileForRoute $nw $rf]} {
-	    set filename {}
-	    routeGraphics::make_pngs $network $rf
-	    set filename [routeGraphics::getPNGName $network $rf 28]
-	    dict set fileForRoute $nw $rf $filename
-	}
-	if {[dict get $fileForRoute $nw $rf] ne {}} {
-	    set routeKey [list $route $nw $rf $highway]
-	    dict set routesForWay $wayid $routeKey {}
+	if {![dict exists $processedRoute $network $ref]} {
+	    routeGraphics::make_pngs $network $ref
+	    dict set processedRoute $network $ref {}
 	}
     }
     if {[incr n] % 1000 == 0} {
