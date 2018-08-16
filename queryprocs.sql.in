@@ -1,203 +1,29 @@
-DROP FUNCTION @PREFIX@_query_shields_roads_motorway(GEOMETRY, INT);
-
-CREATE OR REPLACE FUNCTION
-@PREFIX@_query_shields_roads_motorway(bbox GEOMETRY, size_wanted INT)
-RETURNS TABLE(
-    id BIGINT,
-    way GEOMETRY,
-    picture_1 TEXT,
-    picture_2 TEXT,
-    picture_3 TEXT,
-    picture_4 TEXT,
-    picture_5 TEXT,
-    picture_6 TEXT,
-    picture_7 TEXT,
-    picture_8 TEXT
-)
-LANGUAGE plpgsql
-AS $@PREFIX@_query_shields_roads_motorway$
-BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.filename AS gfile
-	FROM @PREFIX@_roads ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND ln.highway = 'motorway'
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gfile) AS gfiles
-	FROM q10
-	GROUP BY xid
-      )
-      SELECT q20.xid AS id,
-      	     q20.way AS way,
-             q20.gfiles[1] AS picture_1,
-             q20.gfiles[2] AS picture_2,
-             q20.gfiles[3] AS picture_3,
-             q20.gfiles[4] AS picture_4,
-             q20.gfiles[5] AS picture_5,
-             q20.gfiles[6] AS picture_6,
-             q20.gfiles[7] AS picture_7,
-             q20.gfiles[8] AS picture_8
-      FROM q20
-    );
-END
-$@PREFIX@_query_shields_roads_motorway$
-
+DROP FUNCTION @PREFIX@_gids_to_files(INT[])
 \g
 
-DROP FUNCTION @PREFIX@_query_shields_roads_major(GEOMETRY, INT);
-
 CREATE OR REPLACE FUNCTION
-@PREFIX@_query_shields_roads_major(bbox GEOMETRY, size_wanted INT)
-RETURNS TABLE(
-    id BIGINT,
-    way GEOMETRY,
-    picture_1 TEXT,
-    picture_2 TEXT,
-    picture_3 TEXT,
-    picture_4 TEXT,
-    picture_5 TEXT,
-    picture_6 TEXT,
-    picture_7 TEXT,
-    picture_8 TEXT
-)
+@PREFIX@_gids_to_files(gids INT[])
+RETURNS TEXT[]
 LANGUAGE plpgsql
-AS $@PREFIX@_query_shields_roads_major$
+AS $@PREFIX@_gids_to_files$
+DECLARE
 BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.filename AS gfile
-	FROM @PREFIX@_roads ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND ln.highway in ('motorway', 'trunk', 'primary')
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gfile) AS gfiles
-	FROM q10
-	GROUP BY xid
-      )
-      SELECT q20.xid AS id,
-      	     q20.way AS way,
-             q20.gfiles[1] AS picture_1,
-             q20.gfiles[2] AS picture_2,
-             q20.gfiles[3] AS picture_3,
-             q20.gfiles[4] AS picture_4,
-             q20.gfiles[5] AS picture_5,
-             q20.gfiles[6] AS picture_6,
-             q20.gfiles[7] AS picture_7,
-             q20.gfiles[8] AS picture_8
-      FROM q20
-    );
+  RETURN (
+    SELECT ARRAY_AGG(g.filename)
+    FROM (SELECT UNNEST(gids) AS gid) AS t
+	  JOIN osm_shield_graphics AS g
+	  ON g.id = t.gid
+  );
 END
-$@PREFIX@_query_shields_roads_major$
-
+$@PREFIX@_gids_to_files$
 \g
 
-DROP FUNCTION @PREFIX@_query_shields_roads_all(GEOMETRY, INT);
-
-CREATE OR REPLACE FUNCTION
-@PREFIX@_query_shields_roads_all(bbox GEOMETRY, size_wanted INT)
-RETURNS TABLE(
-    id BIGINT,
-    way GEOMETRY,
-    picture_1 TEXT,
-    picture_2 TEXT,
-    picture_3 TEXT,
-    picture_4 TEXT,
-    picture_5 TEXT,
-    picture_6 TEXT,
-    picture_7 TEXT,
-    picture_8 TEXT
-)
-LANGUAGE plpgsql
-AS $@PREFIX@_query_shields_roads_all$
-BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.filename AS gfile
-	FROM @PREFIX@_roads ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gfile) AS gfiles
-	FROM q10
-	GROUP BY xid
-      )
-      SELECT q20.xid AS id,
-      	     q20.way AS way,
-             q20.gfiles[1] AS picture_1,
-             q20.gfiles[2] AS picture_2,
-             q20.gfiles[3] AS picture_3,
-             q20.gfiles[4] AS picture_4,
-             q20.gfiles[5] AS picture_5,
-             q20.gfiles[6] AS picture_6,
-             q20.gfiles[7] AS picture_7,
-             q20.gfiles[8] AS picture_8
-      FROM q20
-    );
-END
-$@PREFIX@_query_shields_roads_all$
-
+DROP FUNCTION @PREFIX@_query_shields_line_all(GEOMETRY, INT)
 \g
-
-DROP FUNCTION @PREFIX@_query_shields_line_all(GEOMETRY, INT);
 
 CREATE OR REPLACE FUNCTION
 @PREFIX@_query_shields_line_all(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
-    id BIGINT,
     way GEOMETRY,
     picture_1 TEXT,
     picture_2 TEXT,
@@ -217,7 +43,7 @@ BEGIN
 	       ln.way AS way,
 	       rt.network AS network,
 	       rt.ref AS "ref",
-	       g.filename AS gfile
+	       g.id AS gid
 	FROM @PREFIX@_line ln
 	JOIN @PREFIX@_shieldway sw
 	ON sw.wayid = ln.osm_id
@@ -235,23 +61,261 @@ BEGIN
       q20 AS (
         SELECT q10.id AS xid,
 	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gfile) AS gfiles
+	       ARRAY_AGG(q10.gid) AS gids
 	FROM q10
 	GROUP BY xid
+      ),
+      q30 AS (
+      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
+	         q20.gids AS gids
+	  FROM q20
+	  GROUP BY gids
+      ),
+      q40 AS (
+          SELECT q30.way as way,
+	  q30.gids AS gids,
+	  @PREFIX@_gids_to_files(gids) AS gfiles
+	  FROM q30
       )
-      SELECT q20.xid AS id,
-      	     q20.way AS way,
-             q20.gfiles[1] AS picture_1,
-             q20.gfiles[2] AS picture_2,
-             q20.gfiles[3] AS picture_3,
-             q20.gfiles[4] AS picture_4,
-             q20.gfiles[5] AS picture_5,
-             q20.gfiles[6] AS picture_6,
-             q20.gfiles[7] AS picture_7,
-             q20.gfiles[8] AS picture_8
-      FROM q20
+      SELECT 
+      	     q40.way AS way,
+             q40.gfiles[1] AS picture_1,
+             q40.gfiles[2] AS picture_2,
+             q40.gfiles[3] AS picture_3,
+             q40.gfiles[4] AS picture_4,
+             q40.gfiles[5] AS picture_5,
+             q40.gfiles[6] AS picture_6,
+             q40.gfiles[7] AS picture_7,
+             q40.gfiles[8] AS picture_8
+      FROM q40
     );
 END
 $@PREFIX@_query_shields_line_all$
+\g
 
+DROP FUNCTION @PREFIX@_query_shields_roads_all(GEOMETRY, INT)
+\g
+
+CREATE OR REPLACE FUNCTION
+@PREFIX@_query_shields_roads_all(bbox GEOMETRY, size_wanted INT)
+RETURNS TABLE(
+    way GEOMETRY,
+    picture_1 TEXT,
+    picture_2 TEXT,
+    picture_3 TEXT,
+    picture_4 TEXT,
+    picture_5 TEXT,
+    picture_6 TEXT,
+    picture_7 TEXT,
+    picture_8 TEXT
+)
+LANGUAGE plpgsql
+AS $@PREFIX@_query_shields_roads_all$
+BEGIN
+    RETURN QUERY (
+      WITH q10 AS (
+        SELECT ln.osm_id AS id,
+	       ln.way AS way,
+	       rt.network AS network,
+	       rt.ref AS "ref",
+	       g.id AS gid
+	FROM @PREFIX@_roads ln
+	JOIN @PREFIX@_shieldway sw
+	ON sw.wayid = ln.osm_id
+	JOIN @PREFIX@_shieldroute rt
+	ON rt.relid = sw.relid
+	JOIN osm_shield_graphics g
+	ON g.route = rt.route
+	AND g.network = rt.network
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
+	AND g."size" = size_wanted
+	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
+	  AND rt.route = 'road'
+	ORDER BY "network", "ref"
+      ),
+      q20 AS (
+        SELECT q10.id AS xid,
+	       ST_Union(q10.way) AS way,
+	       ARRAY_AGG(q10.gid) AS gids
+	FROM q10
+	GROUP BY xid
+      ),
+      q30 AS (
+      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
+	         q20.gids AS gids
+	  FROM q20
+	  GROUP BY gids
+      ),
+      q40 AS (
+          SELECT q30.way as way,
+	  q30.gids AS gids,
+	  @PREFIX@_gids_to_files(gids) AS gfiles
+	  FROM q30
+      )
+      SELECT 
+      	     q40.way AS way,
+             q40.gfiles[1] AS picture_1,
+             q40.gfiles[2] AS picture_2,
+             q40.gfiles[3] AS picture_3,
+             q40.gfiles[4] AS picture_4,
+             q40.gfiles[5] AS picture_5,
+             q40.gfiles[6] AS picture_6,
+             q40.gfiles[7] AS picture_7,
+             q40.gfiles[8] AS picture_8
+      FROM q40
+    );
+END
+$@PREFIX@_query_shields_roads_all$
+\g
+
+DROP FUNCTION @PREFIX@_query_shields_roads_major(GEOMETRY, INT)
+\g
+
+CREATE OR REPLACE FUNCTION
+@PREFIX@_query_shields_roads_major(bbox GEOMETRY, size_wanted INT)
+RETURNS TABLE(
+    way GEOMETRY,
+    picture_1 TEXT,
+    picture_2 TEXT,
+    picture_3 TEXT,
+    picture_4 TEXT,
+    picture_5 TEXT,
+    picture_6 TEXT,
+    picture_7 TEXT,
+    picture_8 TEXT
+)
+LANGUAGE plpgsql
+AS $@PREFIX@_query_shields_roads_major$
+BEGIN
+    RETURN QUERY (
+      WITH q10 AS (
+        SELECT ln.osm_id AS id,
+	       ln.way AS way,
+	       rt.network AS network,
+	       rt.ref AS "ref",
+	       g.id AS gid
+	FROM @PREFIX@_roads ln
+	JOIN @PREFIX@_shieldway sw
+	ON sw.wayid = ln.osm_id
+	JOIN @PREFIX@_shieldroute rt
+	ON rt.relid = sw.relid
+	JOIN osm_shield_graphics g
+	ON g.route = rt.route
+	AND g.network = rt.network
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
+	AND g."size" = size_wanted
+	WHERE ln.highway IN ('motorway', 'trunk', 'primary')
+          AND ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
+	  AND rt.route = 'road'
+	ORDER BY "network", "ref"
+      ),
+      q20 AS (
+        SELECT q10.id AS xid,
+	       ST_Union(q10.way) AS way,
+	       ARRAY_AGG(q10.gid) AS gids
+	FROM q10
+	GROUP BY xid
+      ),
+      q30 AS (
+      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
+	         q20.gids AS gids
+	  FROM q20
+	  GROUP BY gids
+      ),
+      q40 AS (
+          SELECT q30.way as way,
+	  q30.gids AS gids,
+	  @PREFIX@_gids_to_files(gids) AS gfiles
+	  FROM q30
+      )
+      SELECT 
+      	     q40.way AS way,
+             q40.gfiles[1] AS picture_1,
+             q40.gfiles[2] AS picture_2,
+             q40.gfiles[3] AS picture_3,
+             q40.gfiles[4] AS picture_4,
+             q40.gfiles[5] AS picture_5,
+             q40.gfiles[6] AS picture_6,
+             q40.gfiles[7] AS picture_7,
+             q40.gfiles[8] AS picture_8
+      FROM q40
+    );
+END
+$@PREFIX@_query_shields_roads_major$
+\g
+
+DROP FUNCTION @PREFIX@_query_shields_roads_motorway(GEOMETRY, INT)
+\g
+
+CREATE OR REPLACE FUNCTION
+@PREFIX@_query_shields_roads_motorway(bbox GEOMETRY, size_wanted INT)
+RETURNS TABLE(
+    way GEOMETRY,
+    picture_1 TEXT,
+    picture_2 TEXT,
+    picture_3 TEXT,
+    picture_4 TEXT,
+    picture_5 TEXT,
+    picture_6 TEXT,
+    picture_7 TEXT,
+    picture_8 TEXT
+)
+LANGUAGE plpgsql
+AS $@PREFIX@_query_shields_roads_motorway$
+BEGIN
+    RETURN QUERY (
+      WITH q10 AS (
+        SELECT ln.osm_id AS id,
+	       ln.way AS way,
+	       rt.network AS network,
+	       rt.ref AS "ref",
+	       g.id AS gid
+	FROM @PREFIX@_roads ln
+	JOIN @PREFIX@_shieldway sw
+	ON sw.wayid = ln.osm_id
+	JOIN @PREFIX@_shieldroute rt
+	ON rt.relid = sw.relid
+	JOIN osm_shield_graphics g
+	ON g.route = rt.route
+	AND g.network = rt.network
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
+	AND g."size" = size_wanted
+	WHERE ln.highway = 'motorway'
+          AND ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
+	  AND rt.route = 'road'
+	ORDER BY "network", "ref"
+      ),
+      q20 AS (
+        SELECT q10.id AS xid,
+	       ST_Union(q10.way) AS way,
+	       ARRAY_AGG(q10.gid) AS gids
+	FROM q10
+	GROUP BY xid
+      ),
+      q30 AS (
+      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
+	         q20.gids AS gids
+	  FROM q20
+	  GROUP BY gids
+      ),
+      q40 AS (
+          SELECT q30.way as way,
+	  q30.gids AS gids,
+	  @PREFIX@_gids_to_files(gids) AS gfiles
+	  FROM q30
+      )
+      SELECT 
+      	     q40.way AS way,
+             q40.gfiles[1] AS picture_1,
+             q40.gfiles[2] AS picture_2,
+             q40.gfiles[3] AS picture_3,
+             q40.gfiles[4] AS picture_4,
+             q40.gfiles[5] AS picture_5,
+             q40.gfiles[6] AS picture_6,
+             q40.gfiles[7] AS picture_7,
+             q40.gfiles[8] AS picture_8
+      FROM q40
+    );
+END
+$@PREFIX@_query_shields_roads_motorway$
 \g

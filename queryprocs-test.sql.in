@@ -1,25 +1,25 @@
 
 -- test
 
-SELECT id, picture_1, picture_2, picture_3, picture_4,
+SELECT     picture_1, picture_2, picture_3, picture_4,
            picture_5, picture_6, picture_7, picture_8
 FROM @PREFIX@_query_shields_roads_motorway(
     ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
 )
 \g
-SELECT id, picture_1, picture_2, picture_3, picture_4,
+SELECT     picture_1, picture_2, picture_3, picture_4,
            picture_5, picture_6, picture_7, picture_8
 FROM @PREFIX@_query_shields_roads_major(
     ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
 )
 \g
-SELECT id, picture_1, picture_2, picture_3, picture_4,
+SELECT     picture_1, picture_2, picture_3, picture_4,
            picture_5, picture_6, picture_7, picture_8
 FROM @PREFIX@_query_shields_roads_all(
     ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
 )
 \g
-SELECT id, picture_1, picture_2, picture_3, picture_4,
+SELECT     picture_1, picture_2, picture_3, picture_4,
            picture_5, picture_6, picture_7, picture_8
 FROM @PREFIX@_query_shields_line_all(
     ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
