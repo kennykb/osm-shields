@@ -10,12 +10,6 @@
 --
 -- sed s/@PREFIX@/planet_osm/ < make_routetable.sql.in | psql -d gis
 --
--- Copyright (c) 2018 by Kevin B. Kenny
---
--- Refer to the file, 'license.terms' for information on usage and
--- redistribution of this file, and for a DISCLAIMER OF ALL
--- WARRANTIES.
---
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
