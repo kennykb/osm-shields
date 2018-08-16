@@ -32,7 +32,7 @@ BEGIN
 	JOIN osm_shield_graphics g
 	ON g.route = rt.route
 	AND g.network = rt.network
-	AND g."ref" = rt."ref"
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
 	AND g."size" = size_wanted
 	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
 	  AND ln.highway = 'motorway'
@@ -97,7 +97,7 @@ BEGIN
 	JOIN osm_shield_graphics g
 	ON g.route = rt.route
 	AND g.network = rt.network
-	AND g."ref" = rt."ref"
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
 	AND g."size" = size_wanted
 	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
 	  AND ln.highway in ('motorway', 'trunk', 'primary')
@@ -162,7 +162,7 @@ BEGIN
 	JOIN osm_shield_graphics g
 	ON g.route = rt.route
 	AND g.network = rt.network
-	AND g."ref" = rt."ref"
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
 	AND g."size" = size_wanted
 	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
 	  AND rt.route = 'road'
@@ -226,7 +226,7 @@ BEGIN
 	JOIN osm_shield_graphics g
 	ON g.route = rt.route
 	AND g.network = rt.network
-	AND g."ref" = rt."ref"
+	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
 	AND g."size" = size_wanted
 	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
 	  AND rt.route = 'road'
