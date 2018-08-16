@@ -1,17 +1,16 @@
 #!/usr/bin/env tclsh8.6
 
-set dbname gis
-
-set prefix na_osm
-
 set here [file normalize [file dirname [info script]]]
+
+# Configuration
+
+source [file join $here config.tcl]
+
 set templateDir [file join $here templates]
-set pngDir [file join /storage/kennykb/Maps/Shields pngs]
-set tmpDir /tmp/routeGraphics[pid]
-set sizes {20 24 28 100}
+
+# Connect to the database
 
 package require tdbc::postgres
-
 tdbc::postgres::connection create db -db $dbname
 
 namespace eval routeGraphics {
@@ -1858,3 +1857,6 @@ foreach {nw count} [lsort -stride 2 -integer -index 1 -decreasing \
     # How do I love thee? Let me count the ways."
     puts "$nw: $count ways"
 }
+
+file delete -force $tmpDir
+

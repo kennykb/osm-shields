@@ -2,9 +2,9 @@
 
 # Configuration
 
-set dbname gis
-set prefix na_osm
 set here [file dirname [file normalize [info script]]]
+
+source [file join $here config.tcl]
 
 set init 0
 if {"--init" in $::argv} {
