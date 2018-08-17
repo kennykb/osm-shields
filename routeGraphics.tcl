@@ -265,6 +265,7 @@ proc routeGraphics::getPNGName {network ref size} {
     file mkdir $dir
     # Sanitize the file name
     set ref [string map {/ :} $ref]
+    if {$ref eq ""} { set ref "_" }
     return [file join $dir $ref.png]
 }
 
@@ -461,6 +462,13 @@ proc routeGraphics::stackModifiers {network rootNetwork ref
 proc routeGraphics::findGenericTemplate {pattern ref} {
 
     variable templateExists
+
+    # This procedure is for numbered routes. If there is no number supplied,
+    # give up at this point so as not to generate blank shields.
+
+    if {$ref eq {}} {
+	return {}
+    }
 
     switch -regexp -- $ref {
 	{^[^1]$}		{ set needwid 1 }
@@ -1775,7 +1783,7 @@ proc routeGraphics::make_pngs {network ref} {
 
     }
     if {!$ok && ![dict exists $sawUnknownNetwork $network]} {
-	puts "No pattern matched network $network ref $ref"
+	puts "No pattern matched [list network $network ref $ref]"
     }
 
     return $ok

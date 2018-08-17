@@ -50,7 +50,8 @@ CREATE TABLE @PREFIX@_shieldway(
 \g
 
 -- Populate the 'shieldroute' table from the 'rels' table. Select
--- only certain route relations.
+-- only certain route relations. Ignore unsigned references, but allow
+-- the case where a network consists of a unique route and has no references.
 
 \echo Populate @PREFIX@_shieldroute with route relations
 
@@ -64,6 +65,8 @@ WHERE osm_get_tag_value(r.tags, 'type') = 'route'
 AND osm_get_tag_value(r.tags, 'route') in
        ('road', 'hiking', 'foot', 'bicycle',
         'horse', 'ski', 'snowmobile')
+AND (osm_get_tag_value(r.tags, 'ref') IS NOT NULL
+     OR osm_get_tag_value(r.tags, 'unsigned_ref') IS NULL)
 \g
 
 -- Now, populate shieldway with the route members. Begin by enumerating the
