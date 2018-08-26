@@ -25,6 +25,7 @@ CREATE OR REPLACE FUNCTION
 @PREFIX@_query_shields_line_all(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
     way GEOMETRY,
+    repeat_key TEXT,
     picture_1 TEXT,
     picture_2 TEXT,
     picture_3 TEXT,
@@ -79,6 +80,7 @@ BEGIN
       )
       SELECT 
       	     q40.way AS way,
+	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
              q40.gfiles[1] AS picture_1,
              q40.gfiles[2] AS picture_2,
              q40.gfiles[3] AS picture_3,
@@ -100,6 +102,7 @@ CREATE OR REPLACE FUNCTION
 @PREFIX@_query_shields_roads_all(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
     way GEOMETRY,
+    repeat_key TEXT,
     picture_1 TEXT,
     picture_2 TEXT,
     picture_3 TEXT,
@@ -154,6 +157,7 @@ BEGIN
       )
       SELECT 
       	     q40.way AS way,
+	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
              q40.gfiles[1] AS picture_1,
              q40.gfiles[2] AS picture_2,
              q40.gfiles[3] AS picture_3,
@@ -175,6 +179,7 @@ CREATE OR REPLACE FUNCTION
 @PREFIX@_query_shields_roads_major(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
     way GEOMETRY,
+    repeat_key TEXT,
     picture_1 TEXT,
     picture_2 TEXT,
     picture_3 TEXT,
@@ -230,6 +235,7 @@ BEGIN
       )
       SELECT 
       	     q40.way AS way,
+	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
              q40.gfiles[1] AS picture_1,
              q40.gfiles[2] AS picture_2,
              q40.gfiles[3] AS picture_3,
@@ -251,6 +257,7 @@ CREATE OR REPLACE FUNCTION
 @PREFIX@_query_shields_roads_motorway(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
     way GEOMETRY,
+    repeat_key TEXT,
     picture_1 TEXT,
     picture_2 TEXT,
     picture_3 TEXT,
@@ -306,6 +313,7 @@ BEGIN
       )
       SELECT 
       	     q40.way AS way,
+	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
              q40.gfiles[1] AS picture_1,
              q40.gfiles[2] AS picture_2,
              q40.gfiles[3] AS picture_3,
