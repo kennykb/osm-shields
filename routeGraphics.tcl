@@ -182,6 +182,9 @@ proc routeGraphics::runInkscape {svg size png} {
     variable inkscapeReady
     waitForInkscape
     set inkscapeReady 0
+#   puts "Send to Inkscape:"
+#   puts               "\"$svg\" --export-area-snap --export-height=$size\
+#                                --export-png=\"$png\""
     puts $inkscapeChan "\"$svg\" --export-area-snap --export-height=$size\
                                  --export-png=\"$png\""
 }
@@ -202,7 +205,7 @@ proc routeGraphics::replyFromInkscape {} {
     } elseif {[string length $data] > 0} {
 	append inkscapeCollect $data
 	if {[string range $inkscapeCollect end-1 end] eq "\n>"} {
-	    # puts stderr [string range $inkscapeCollect 0 end-1]
+	    #puts stderr [string range $inkscapeCollect 0 end-1]
 	    set inkscapeReady 1
 	    set inkscapeCollect {}
 	}
@@ -284,6 +287,7 @@ proc routeGraphics::getBannerPNGName {network banner size} {
 
 proc routeGraphics::makeSVG {network ref templateFile keys values} {
     variable ::tmpDir
+
     set svgname [getSVGName $network $ref]
     if {![file exists $svgname]} {
 	file mkdir [file dirname $svgname]
