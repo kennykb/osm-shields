@@ -121,7 +121,7 @@ namespace eval routeGraphics {
 
     variable US_OH_county_abbr {
 	AUG AUGLAIZE
- 	BEL BELMONE
+ 	BEL BELMONT
 	COL COLUMBIANA
 	FAI FAIRFIELD
 	FUL FULTON
