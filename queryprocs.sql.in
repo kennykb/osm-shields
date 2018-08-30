@@ -46,6 +46,10 @@ CREATE TYPE
 )
 \g
 
+---------------
+-- FUNCTIONS --
+---------------
+
 -- Function: @PREFIX@_gids_to_files
 --
 --	Converts an array of graphics ID's to an array of filenames
@@ -79,7 +83,7 @@ END
 $@PREFIX@_gids_to_files$
 \g
 
--- @PREFIX@_analyze_markers --
+-- Function: @PREFIX@_analyze_markers --
 --
 --	Analyzes a set of road segments, and returns a set of ways, together
 --      with the data needed to support shield rendering.
@@ -250,7 +254,7 @@ END
 $@PREFIX@_analyze_markers$
 \g
 
--- @PREFIX@_query_shields_line_all --
+-- Function: @PREFIX@_query_shields_line_all --
 --
 --	Calculate and return the ways on which highway shields
 --	should be rendered, considering all highways of whatever
@@ -318,7 +322,7 @@ END
 $@PREFIX@_query_shields_line_all$
 \g
 
--- @PREFIX@_query_shields_roads_all --
+-- Function: @PREFIX@_query_shields_roads_all --
 --
 --	Calculate and return the ways on which highway shields
 --	should be rendered, considering all highways in '@PREFIX@_roads'
@@ -386,7 +390,7 @@ END
 $@PREFIX@_query_shields_roads_all$
 \g
 
--- @PREFIX@_query_shields_roads_major --
+-- Function: @PREFIX@_query_shields_roads_major --
 --
 --	Calculate and return the ways on which highway shields
 --	should be rendered, considering major highways in '@PREFIX@_roads'
@@ -458,7 +462,7 @@ END
 $@PREFIX@_query_shields_roads_major$
 \g
 
--- @PREFIX@_query_shields_roads_motorway --
+-- Function: @PREFIX@_query_shields_roads_motorway --
 --
 --	Calculate and return the ways on which highway shields
 --	should be rendered, considering only motorways in '@PREFIX@_roads'
