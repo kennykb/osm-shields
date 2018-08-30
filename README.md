@@ -50,6 +50,11 @@ suffice on Debian systems:
 sudo apt-get install imagemagick inkscape
 ```
 
+Inkscape, in turn, will require the Roadgeek 2005 fonts in order
+to render the highway signs.  They can be found in the
+[Github release system](https://github.com/sammdot/roadgeek-fonts/releases)
+for the [roadgeek-fonts project](https://github.com/sammdot/roadgeek-fonts).
+
 Users of other operating systems should consult the local system's
 package manager for where to find the required third-party software.
 
