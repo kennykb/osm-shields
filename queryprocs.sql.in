@@ -1,12 +1,73 @@
-DROP FUNCTION @PREFIX@_gids_to_files(INT[])
+-- queryprocs.sql.in --
+--
+--	Procedures to query the OpenStreetMap database for roads that
+--      should have markers placed on them on a map
+--
+-- This file has been placed in the Public Domain in Common Law countries,
+-- and is licenced under Creative Commons Zero in all jurisdictions.
+--
+-----------------------------------------------------------------------------
+
+-----------
+-- USAGE --
+-----------
+
+-- This file is designed to be given to PostgreSQL as a script after
+-- replacing the string, @PREFIX@, with the prefix under which OSM
+-- data have been imported, e.g., 'planet_osm'.  A suitable Unix
+-- command to accomplish this might be:
+--
+--      sed s/@PREFIX@/planet_osm/g <queryprocs.sql.in | psql -d gis
+
+-----------
+-- TYPES --
+-----------
+
+-- Type: @PREFIX@_road_segment
+--
+--    A 'road_segment' is a piece of a road. An array of road segments
+--    will be constructed to represent the network of numbered routes
+--    that are to be rendered, and passed into @PREFIX@_analyze_markers
+--    to produce the data set that will drive the renderer.
+
+DROP TYPE IF EXISTS @PREFIX@_road_segment CASCADE;
 \g
 
-CREATE OR REPLACE FUNCTION
+CREATE TYPE
+@PREFIX@_road_segment AS(
+
+    osm_id BIGINT,		-- The OSM ID of the segment
+
+    way GEOMETRY,		-- The geometry of the segment
+
+    "ref" TEXT,                 -- The 'ref' tag on the segment
+
+    highway TEXT		-- The 'highway' tag on the segment
+)
+\g
+
+-- Function: @PREFIX@_gids_to_files
+--
+--	Converts an array of graphics ID's to an array of filenames
+--
+-- Parameters:
+--	gids - Array of graphics IDs.
+--
+-- Results:
+--	Returns the filenames corresponding to the given ID's
+--
+-- Since each graphics ID is a primary key in the 'osm_shield_graphics'
+-- table, this function need only join the array to the table,
+-- select the filenames and aggregate the result.
+
+DROP FUNCTION IF EXISTS @PREFIX@_gids_to_files(INT[])
+\g
+
+CREATE FUNCTION
 @PREFIX@_gids_to_files(gids INT[])
 RETURNS TEXT[]
 LANGUAGE plpgsql
 AS $@PREFIX@_gids_to_files$
-DECLARE
 BEGIN
   RETURN (
     SELECT ARRAY_AGG(g.filename)
@@ -18,312 +79,450 @@ END
 $@PREFIX@_gids_to_files$
 \g
 
-DROP FUNCTION @PREFIX@_query_shields_line_all(GEOMETRY, INT)
+-- @PREFIX@_analyze_markers --
+--
+--	Analyzes a set of road segments, and returns a set of ways, together
+--      with the data needed to support shield rendering.
+--
+-- Parameters:
+--	segs -- Array of '@PREFIX@_road_segment' objects that represent
+--              roads that might be candidates for labelling with markers.
+--      size_wanted -- The desired height of the graphic elements in pixels.
+--                     Because of banners, odd shield proportions, and similar
+--                     issues, the returned graphic may not be precisely
+--                     the nominal size, but should harmonize with other
+--                     graphics of the same nominal size.
+--
+-- Results:
+--	Returns a table giving ways that actually should be labeled with
+--      markers. Each way has a repeat key that informs Mapnik what marker
+--      set it belongs to (to eliminate markers that are too close together)
+--      and up to eight occurrences of a file name containing the marker
+--      graphic and a string (often empty) to layer atop the graphic.
+--
+-- The ways passed in are ordinarily not in one-to-one correspondence
+-- with the ways returned. Sets of ways that share the same set of markers
+-- are coalesced if possible, so the returned linestrings are typically
+-- longer than the ones passed as parameters.
+--
+-- Example:
+--
+--   Ordinarily, this stored procedure, or one that wraps it, will
+--   be used as input to some rendering layer with a given style.
+--   The set of input ways is derived from a query on one of the OSM
+--   line tables, so the 'table' parameter in the layer's datasource
+--   will look something like:
+--
+--      (SELECT * from @PREFIX@_analyze_markers(
+--          SELECT ARRAY_AGG(ROW(rd.osm_id, rd.way,
+--                               rd."ref", rd.highway)::@PREFIX@_road_segment)
+--          FROM @PREFIX@_osm_roads
+--          WHERE ST_Intersects(!bbox!, way) ))
+
+DROP FUNCTION IF EXISTS @PREFIX@_analyze_markers(@PREFIX@_road_segment[], INT)
 \g
 
-CREATE OR REPLACE FUNCTION
+CREATE FUNCTION
+@PREFIX@_analyze_markers(segs @PREFIX@_road_segment[],
+                         size_wanted INT)
+RETURNS TABLE(
+    way GEOMETRY,		-- Geometry of a resulting linestring
+    repeat_key TEXT,		-- Repeat key used to control marker spacing
+    picture_1 TEXT,		-- First graphic element
+    label_1 TEXT,               -- First label
+    picture_2 TEXT,		-- ...
+    label_2 TEXT,
+    picture_3 TEXT,
+    label_3 TEXT,
+    picture_4 TEXT,
+    label_4 TEXT,
+    picture_5 TEXT,
+    label_5 TEXT,
+    picture_6 TEXT,
+    label_6 TEXT,
+    picture_7 TEXT,
+    label_7 TEXT,
+    picture_8 TEXT,		-- Last graphic element
+    label_8 TEXT		-- Last label
+)
+LANGUAGE plpgsql
+AS
+$@PREFIX@_analyze_markers$
+BEGIN
+    RETURN QUERY (
+
+        -- The first common table expression does the following things:
+	--   + Unpacks the input array into a set of rows again.
+	--   + Finds any route relations in which any input way participates
+	--   + Downselects to 'road' routes
+	--   + Looks up graphic elements corresponding to the routes
+	--   + Packages tuples of (osm_id, way, network, ref, graphic_id)
+	
+        WITH q10 AS (
+	    SELECT ln.osm_id AS id,
+	           ln.way AS way,
+		   rt.network AS network,
+		   rt."ref" AS "ref",
+		   g.id AS gid
+            FROM UNNEST(segs) AS ln
+	    JOIN @PREFIX@_shieldway sw
+	      ON  sw.wayid = ln.osm_id
+	    JOIN @PREFIX@_shieldroute rt
+	      ON  rt.relid = sw.relid
+	      AND rt.route = 'road'
+	    JOIN osm_shield_graphics g
+	      ON  g.route = rt.route
+              AND g.network = rt.network
+	      AND g."ref" = CASE
+	                    WHEN rt."ref" IS NULL THEN ''
+			    ELSE rt."ref"
+			    END
+	      AND g."size" = size_wanted
+	    ORDER BY network, "ref"
+      ),
+
+      -- The next common table expression repackages the result of the
+      -- first so that all graphic elements for a given way appear packaged
+      -- together in a single row. The result is a table of
+      -- (osm_id, way, graphic_id[])
+
+      q20 AS (
+        SELECT q10.id AS xid,             -- OSM ID
+	       ST_Union(q10.way) AS way,  -- This union is always of a single
+	                                  -- way with itself.
+	       ARRAY_AGG(q10.gid) AS gids -- Graphic ID's, aggregated
+	FROM q10
+	GROUP BY xid
+      ),
+
+      -- The next common table expression merges the ways corresponding
+      -- to each set of route relations being processed. The result has
+      -- one row per distinct set, consisting of an ordered pair of
+      -- the merged ways and the array of graphic IDs. The ST_LineMerge
+      -- call serves to coalesce ways that share a common set of routes
+      -- into longer linestrings.
+
+      q30 AS (
+      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
+	         q20.gids AS gids
+	  FROM q20
+	  GROUP BY gids
+      ),
+
+      -- Now that we've produced pairs of (way, graphic IDs) we want to
+      -- bring in the graphic file names. They have not been carried up
+      -- to this point, because the 'GROUP BY' in the step above would
+      -- be inordinately slow if carried out over an arbitrary set of TEXT.
+      
+      q40 AS (
+          SELECT q30.way as way,
+	  q30.gids AS gids,
+	  @PREFIX@_gids_to_files(gids) AS gfiles
+	  FROM q30
+      )
+
+      -- Finally, we can package the query result.  The set of graphic ID's, 
+      -- separated by vertical bars, becomes the repeat key, and the
+      -- individual graphic files are in the result table. In this pipeline,
+      -- none of the graphics requires labeling.
+      SELECT 
+      	     q40.way AS way,
+	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
+             q40.gfiles[1] AS picture_1,
+	     '' AS label_1,
+             q40.gfiles[2] AS picture_2,
+	     '' AS label_2,
+             q40.gfiles[3] AS picture_3,
+	     '' AS label_3,
+             q40.gfiles[4] AS picture_4,
+	     '' AS label_4,
+             q40.gfiles[5] AS picture_5,
+	     '' AS label_5,
+             q40.gfiles[6] AS picture_6,
+	     '' AS label_6,
+             q40.gfiles[7] AS picture_7,
+	     '' AS label_7,
+             q40.gfiles[8] AS picture_8,
+	     '' AS label_8
+      FROM q40
+    );	    
+END
+$@PREFIX@_analyze_markers$
+\g
+
+-- @PREFIX@_query_shields_line_all --
+--
+--	Calculate and return the ways on which highway shields
+--	should be rendered, considering all highways of whatever
+--	prominence within the bounding box.
+--
+-- Parameters:
+--	bbox - Bounding box of the area being rendered
+--	size_wanted - Nominal height of graphic elements in pixels
+--
+-- Results:
+--	Returns a table giving ways that actually should be labeled with
+--      markers. Each way has a repeat key that informs Mapnik what marker
+--      set it belongs to (to eliminate markers that are too close together)
+--      and up to eight occurrences of a file name containing the marker
+--      graphic and a string (often empty) to layer atop the graphic.
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_line_all(GEOMETRY, INT) CASCADE
+\g
+
+CREATE FUNCTION
 @PREFIX@_query_shields_line_all(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
-    way GEOMETRY,
-    repeat_key TEXT,
-    picture_1 TEXT,
-    picture_2 TEXT,
+    way GEOMETRY,		-- Geometry of a resulting linestring
+    repeat_key TEXT,		-- Repeat key used to control marker spacing
+    picture_1 TEXT,		-- First graphic element
+    label_1 TEXT,               -- First label
+    picture_2 TEXT,		-- ...
+    label_2 TEXT,
     picture_3 TEXT,
+    label_3 TEXT,
     picture_4 TEXT,
+    label_4 TEXT,
     picture_5 TEXT,
+    label_5 TEXT,
     picture_6 TEXT,
+    label_6 TEXT,
     picture_7 TEXT,
-    picture_8 TEXT
+    label_7 TEXT,
+    picture_8 TEXT,		-- Last graphic element
+    label_8 TEXT		-- Last label
 )
 LANGUAGE plpgsql
 AS $@PREFIX@_query_shields_line_all$
 BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.id AS gid
-	FROM @PREFIX@_line ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gid) AS gids
-	FROM q10
-	GROUP BY xid
-      ),
-      q30 AS (
-      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
-	         q20.gids AS gids
-	  FROM q20
-	  GROUP BY gids
-      ),
-      q40 AS (
-          SELECT q30.way as way,
-	  q30.gids AS gids,
-	  @PREFIX@_gids_to_files(gids) AS gfiles
-	  FROM q30
-      )
-      SELECT 
-      	     q40.way AS way,
-	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
-             q40.gfiles[1] AS picture_1,
-             q40.gfiles[2] AS picture_2,
-             q40.gfiles[3] AS picture_3,
-             q40.gfiles[4] AS picture_4,
-             q40.gfiles[5] AS picture_5,
-             q40.gfiles[6] AS picture_6,
-             q40.gfiles[7] AS picture_7,
-             q40.gfiles[8] AS picture_8
-      FROM q40
-    );
+    RETURN QUERY(
+        SELECT * FROM @PREFIX@_analyze_markers(
+        (
+
+	    ---------------------------------------------------------------
+            -- This is the base query that yields the roads that
+	    -- might need markers. For this particular use case,
+	    -- it returns all highways in the bounding box.
+	    
+            SELECT ARRAY_AGG(ROW(l.osm_id, l.way,
+	                         l."ref", l.highway)::@PREFIX@_road_segment)
+	    FROM @PREFIX@_line l
+	    WHERE ST_Intersects(l.way, ST_SetSRID(bbox, 3857))
+	    AND l.highway IS NOT NULL
+
+            ---------------------------------------------------------------
+	    
+	 ),
+         size_wanted));
 END
 $@PREFIX@_query_shields_line_all$
 \g
 
-DROP FUNCTION @PREFIX@_query_shields_roads_all(GEOMETRY, INT)
+-- @PREFIX@_query_shields_roads_all --
+--
+--	Calculate and return the ways on which highway shields
+--	should be rendered, considering all highways in '@PREFIX@_roads'
+--	within the bounding box.
+--
+-- Parameters:
+--	bbox - Bounding box of the area being rendered
+--	size_wanted - Nominal height of graphic elements in pixels
+--
+-- Results:
+--	Returns a table giving ways that actually should be labeled with
+--      markers. Each way has a repeat key that informs Mapnik what marker
+--      set it belongs to (to eliminate markers that are too close together)
+--      and up to eight occurrences of a file name containing the marker
+--      graphic and a string (often empty) to layer atop the graphic.
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_all(GEOMETRY, INT) CASCADE
 \g
 
-CREATE OR REPLACE FUNCTION
+CREATE FUNCTION
 @PREFIX@_query_shields_roads_all(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
-    way GEOMETRY,
-    repeat_key TEXT,
-    picture_1 TEXT,
-    picture_2 TEXT,
+    way GEOMETRY,		-- Geometry of a resulting linestring
+    repeat_key TEXT,		-- Repeat key used to control marker spacing
+    picture_1 TEXT,		-- First graphic element
+    label_1 TEXT,               -- First label
+    picture_2 TEXT,		-- ...
+    label_2 TEXT,
     picture_3 TEXT,
+    label_3 TEXT,
     picture_4 TEXT,
+    label_4 TEXT,
     picture_5 TEXT,
+    label_5 TEXT,
     picture_6 TEXT,
+    label_6 TEXT,
     picture_7 TEXT,
-    picture_8 TEXT
+    label_7 TEXT,
+    picture_8 TEXT,		-- Last graphic element
+    label_8 TEXT		-- Last label
 )
 LANGUAGE plpgsql
 AS $@PREFIX@_query_shields_roads_all$
 BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.id AS gid
-	FROM @PREFIX@_roads ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gid) AS gids
-	FROM q10
-	GROUP BY xid
-      ),
-      q30 AS (
-      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
-	         q20.gids AS gids
-	  FROM q20
-	  GROUP BY gids
-      ),
-      q40 AS (
-          SELECT q30.way as way,
-	  q30.gids AS gids,
-	  @PREFIX@_gids_to_files(gids) AS gfiles
-	  FROM q30
-      )
-      SELECT 
-      	     q40.way AS way,
-	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
-             q40.gfiles[1] AS picture_1,
-             q40.gfiles[2] AS picture_2,
-             q40.gfiles[3] AS picture_3,
-             q40.gfiles[4] AS picture_4,
-             q40.gfiles[5] AS picture_5,
-             q40.gfiles[6] AS picture_6,
-             q40.gfiles[7] AS picture_7,
-             q40.gfiles[8] AS picture_8
-      FROM q40
-    );
+    RETURN QUERY(
+        SELECT * FROM @PREFIX@_analyze_markers(
+        (
+
+	    ---------------------------------------------------------------
+            -- This is the base query that yields the roads that
+	    -- might need markers. For this particular use case,
+	    -- it returns all roads in the bounding box.
+	    
+            SELECT ARRAY_AGG(ROW(l.osm_id, l.way,
+	                         l."ref", l.highway)::@PREFIX@_road_segment)
+	    FROM @PREFIX@_roads l
+	    WHERE ST_Intersects(l.way, ST_SetSRID(bbox, 3857))
+	    AND l.highway IS NOT NULL
+
+            ---------------------------------------------------------------
+	    
+	 ),
+         size_wanted));
 END
 $@PREFIX@_query_shields_roads_all$
 \g
 
-DROP FUNCTION @PREFIX@_query_shields_roads_major(GEOMETRY, INT)
+-- @PREFIX@_query_shields_roads_major --
+--
+--	Calculate and return the ways on which highway shields
+--	should be rendered, considering major highways in '@PREFIX@_roads'
+--	within the bounding box.
+--
+-- Parameters:
+--	bbox - Bounding box of the area being rendered
+--	size_wanted - Nominal height of graphic elements in pixels
+--
+-- Results:
+--	Returns a table giving ways that actually should be labeled with
+--      markers. Each way has a repeat key that informs Mapnik what marker
+--      set it belongs to (to eliminate markers that are too close together)
+--      and up to eight occurrences of a file name containing the marker
+--      graphic and a string (often empty) to layer atop the graphic.
+--
+-- A highway is considered to be 'major' if it is a motorway, trunk
+-- or primary way.
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_major(GEOMETRY, INT) CASCADE
 \g
 
-CREATE OR REPLACE FUNCTION
+CREATE FUNCTION
 @PREFIX@_query_shields_roads_major(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
-    way GEOMETRY,
-    repeat_key TEXT,
-    picture_1 TEXT,
-    picture_2 TEXT,
+    way GEOMETRY,		-- Geometry of a resulting linestring
+    repeat_key TEXT,		-- Repeat key used to control marker spacing
+    picture_1 TEXT,		-- First graphic element
+    label_1 TEXT,               -- First label
+    picture_2 TEXT,		-- ...
+    label_2 TEXT,
     picture_3 TEXT,
+    label_3 TEXT,
     picture_4 TEXT,
+    label_4 TEXT,
     picture_5 TEXT,
+    label_5 TEXT,
     picture_6 TEXT,
+    label_6 TEXT,
     picture_7 TEXT,
-    picture_8 TEXT
+    label_7 TEXT,
+    picture_8 TEXT,		-- Last graphic element
+    label_8 TEXT		-- Last label
 )
 LANGUAGE plpgsql
 AS $@PREFIX@_query_shields_roads_major$
 BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.id AS gid
-	FROM @PREFIX@_roads ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ln.highway IN ('motorway', 'trunk', 'primary')
-          AND ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gid) AS gids
-	FROM q10
-	GROUP BY xid
-      ),
-      q30 AS (
-      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
-	         q20.gids AS gids
-	  FROM q20
-	  GROUP BY gids
-      ),
-      q40 AS (
-          SELECT q30.way as way,
-	  q30.gids AS gids,
-	  @PREFIX@_gids_to_files(gids) AS gfiles
-	  FROM q30
-      )
-      SELECT 
-      	     q40.way AS way,
-	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
-             q40.gfiles[1] AS picture_1,
-             q40.gfiles[2] AS picture_2,
-             q40.gfiles[3] AS picture_3,
-             q40.gfiles[4] AS picture_4,
-             q40.gfiles[5] AS picture_5,
-             q40.gfiles[6] AS picture_6,
-             q40.gfiles[7] AS picture_7,
-             q40.gfiles[8] AS picture_8
-      FROM q40
-    );
+    RETURN QUERY(
+        SELECT * FROM @PREFIX@_analyze_markers(
+        (
+
+	    ---------------------------------------------------------------
+            -- This is the base query that yields the roads that
+	    -- might need markers. For this particular use case,
+	    -- it returns all motorways, trunks and primary highways
+	    -- in the bounding box.
+	    
+            SELECT ARRAY_AGG(ROW(l.osm_id, l.way,
+	                         l."ref", l.highway)::@PREFIX@_road_segment)
+	    FROM @PREFIX@_roads l
+	    WHERE ST_Intersects(l.way, ST_SetSRID(bbox, 3857))
+	    AND l.highway IN ('motorway', 'trunk', 'primary')
+
+            ---------------------------------------------------------------
+	    
+	 ),
+         size_wanted));
 END
 $@PREFIX@_query_shields_roads_major$
 \g
 
-DROP FUNCTION @PREFIX@_query_shields_roads_motorway(GEOMETRY, INT)
+-- @PREFIX@_query_shields_roads_motorway --
+--
+--	Calculate and return the ways on which highway shields
+--	should be rendered, considering only motorways in '@PREFIX@_roads'
+--	within the bounding box.
+--
+-- Parameters:
+--	bbox - Bounding box of the area being rendered
+--	size_wanted - Nominal height of graphic elements in pixels
+--
+-- Results:
+--	Returns a table giving ways that actually should be labeled with
+--      markers. Each way has a repeat key that informs Mapnik what marker
+--      set it belongs to (to eliminate markers that are too close together)
+--      and up to eight occurrences of a file name containing the marker
+--      graphic and a string (often empty) to layer atop the graphic.
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_motorway(GEOMETRY, INT) CASCADE
 \g
 
-CREATE OR REPLACE FUNCTION
+CREATE FUNCTION
 @PREFIX@_query_shields_roads_motorway(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
-    way GEOMETRY,
-    repeat_key TEXT,
-    picture_1 TEXT,
-    picture_2 TEXT,
+    way GEOMETRY,		-- Geometry of a resulting linestring
+    repeat_key TEXT,		-- Repeat key used to control marker spacing
+    picture_1 TEXT,		-- First graphic element
+    label_1 TEXT,               -- First label
+    picture_2 TEXT,		-- ...
+    label_2 TEXT,
     picture_3 TEXT,
+    label_3 TEXT,
     picture_4 TEXT,
+    label_4 TEXT,
     picture_5 TEXT,
+    label_5 TEXT,
     picture_6 TEXT,
+    label_6 TEXT,
     picture_7 TEXT,
-    picture_8 TEXT
+    label_7 TEXT,
+    picture_8 TEXT,		-- Last graphic element
+    label_8 TEXT		-- Last label
 )
 LANGUAGE plpgsql
 AS $@PREFIX@_query_shields_roads_motorway$
 BEGIN
-    RETURN QUERY (
-      WITH q10 AS (
-        SELECT ln.osm_id AS id,
-	       ln.way AS way,
-	       rt.network AS network,
-	       rt.ref AS "ref",
-	       g.id AS gid
-	FROM @PREFIX@_roads ln
-	JOIN @PREFIX@_shieldway sw
-	ON sw.wayid = ln.osm_id
-	JOIN @PREFIX@_shieldroute rt
-	ON rt.relid = sw.relid
-	JOIN osm_shield_graphics g
-	ON g.route = rt.route
-	AND g.network = rt.network
-	AND g."ref" = (CASE WHEN rt."ref" IS NULL THEN '' ELSE rt."ref" END)
-	AND g."size" = size_wanted
-	WHERE ln.highway = 'motorway'
-          AND ST_Intersects(ln.way, ST_SetSRID(bbox, 3857))
-	  AND rt.route = 'road'
-	ORDER BY "network", "ref"
-      ),
-      q20 AS (
-        SELECT q10.id AS xid,
-	       ST_Union(q10.way) AS way,
-	       ARRAY_AGG(q10.gid) AS gids
-	FROM q10
-	GROUP BY xid
-      ),
-      q30 AS (
-      	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
-	         q20.gids AS gids
-	  FROM q20
-	  GROUP BY gids
-      ),
-      q40 AS (
-          SELECT q30.way as way,
-	  q30.gids AS gids,
-	  @PREFIX@_gids_to_files(gids) AS gfiles
-	  FROM q30
-      )
-      SELECT 
-      	     q40.way AS way,
-	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
-             q40.gfiles[1] AS picture_1,
-             q40.gfiles[2] AS picture_2,
-             q40.gfiles[3] AS picture_3,
-             q40.gfiles[4] AS picture_4,
-             q40.gfiles[5] AS picture_5,
-             q40.gfiles[6] AS picture_6,
-             q40.gfiles[7] AS picture_7,
-             q40.gfiles[8] AS picture_8
-      FROM q40
-    );
+    RETURN QUERY(
+        SELECT * FROM @PREFIX@_analyze_markers(
+        (
+
+	    ---------------------------------------------------------------
+            -- This is the base query that yields the roads that
+	    -- might need markers. For this particular use case,
+	    -- it returns all motorways in the bounding box.
+	    
+            SELECT ARRAY_AGG(ROW(l.osm_id, l.way,
+	                         l."ref", l.highway)::@PREFIX@_road_segment)
+	    FROM @PREFIX@_roads l
+	    WHERE ST_Intersects(l.way, ST_SetSRID(bbox, 3857))
+	    AND l.highway = 'motorway'
+
+            ---------------------------------------------------------------
+	    
+	 ),
+         size_wanted));
 END
 $@PREFIX@_query_shields_roads_motorway$
 \g
+
