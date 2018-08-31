@@ -672,6 +672,64 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^CA:ON:primary$ {
+	    set tpos [lsearch -nocase -exact Toll $modifiers]
+	    if {$tpos >= 0} {
+		set modifiers [lreplace $modifiers $tpos $tpos]
+		append rootnetwork :Toll
+		set num $ref
+		set suf {}
+		set pat [findGenericTemplate CA:ON:primary:Toll $num]
+		set scale 2.0
+	    } else {
+		switch -regexp -matchvar refparts $ref {
+		    QEW {
+			set pat CA:ON:primary-QEW.svg
+			set num QEW
+			set suf {}
+		    }
+		    {(\d+)([[:alpha:]])} {
+			lassign $refparts - num suf
+			set pat [findGenericTemplate CA:ON:primary_suf $num]
+		    }
+		    {\d+} {
+			set num $ref
+			set suf {}
+			set pat [findGenericTemplate CA:ON:primary $num]
+		    }
+		    default {
+			puts "$network $ref not handled"
+		    }
+		}
+		set scale 1.6
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num suf} [list $num $suf]
+		makePNGs $rootnetwork $ref $scale
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:ON:primary:ETR$ {
+	    puts "ref = $ref"
+	    regsub -- { ETR$} $ref {} num
+	    puts "num = $num"
+	    set pat [findGenericTemplate CA:ON:primary:ETR $num]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num} [list $num]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^CA:QC:A$ {
 	    set pat [findGenericTemplate CA:QC_AR $ref]
 	    if {$pat ne ""} {
