@@ -756,6 +756,19 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^CA:ON:tertiary$ {
+	    set pat [findGenericTemplate CA:ON:tertiary $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num} [list $ref]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^CA:QC:A$ {
 	    set pat [findGenericTemplate CA:QC_AR $ref]
 	    if {$pat ne ""} {
