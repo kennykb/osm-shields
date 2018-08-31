@@ -19,7 +19,7 @@ tdbc::postgres::connection create db -db $dbname
 
 if {$init} {
     puts stderr "Execute: graphictables.sql.in"
-    exec sed s/@PREFIX@/$prefix/ [file join $here graphictables.sql.in] \
+    exec sed s/@PREFIX@/$prefix/g [file join $here graphictables.sql.in] \
 	| psql -d $dbname >@stdout 2>@stderr
 }
 

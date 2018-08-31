@@ -870,6 +870,23 @@ proc routeGraphics::make_pngs {network ref} {
 	    stackModifiers $network $rootnetwork $ref $modifiers
 	}
 
+	^CA:transcanada$ -
+	^CA:yellowhead$ {
+	    # Yellowhead Route is signed TCH for most of its length.
+	    # Also bears a custom shield in many places, but let TCH
+	    # dominate for now.
+
+	    set pat [findGenericTemplate CA:TCH $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^MEX$ -
 	^MX$ -
 	^MX:MX$ {
