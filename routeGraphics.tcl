@@ -39,6 +39,62 @@ namespace eval routeGraphics {
 	}
     }
 
+    # Colors for simplified 'flower pot' shields for counties in Ontario
+    # Any county not listed is black-on-white
+
+    variable CA_ON_county_shieldcolors {
+	Grey				white_blue
+	Halton				yellow_blue
+	Hamilton			white_blue
+	Niagara				white_blue
+	Peel				yellow_black
+	Simcoe				blue_white
+    }
+
+    # Haldimand, Huron, Lennox and Addington, Middlesex,
+    # Norfolk, Prescott and Russell are unverified
+
+    # Perth needs special handling for PERTH LINE and PERTH ROAD
+
+    # Don't attempt these labels at the moment - they are not
+    # really useful for markers on maps.
+
+    variable CA_ON_county_labels {
+	"Brant"				{BRANT 		COUNTY}
+	"Bruce"				{BRUCE		COUNTY}
+	"Chatham-Kent"			{CHATHAM	KENT}
+	"Dufferin"			{DUFFERIN	COUNTY}
+	"Durham"			{DURHAM		REGION}
+	"Elgin"				{ELGIN		COUNTY}
+	"Essex"				{ESSEX		COUNTY}
+	"Frontenac"			{FRONTENAC	COUNTY}
+	"Haldimand"			{HALDIMAND	COUNTY}
+	"Haliburton"			{HALIBURTON	COUNTY}
+	"Hastings"			{HASTINGS	COUNTY}
+	"Huron"				{HURON		COUNTY}
+	"Kawartha Lakes"		{KAWARTHA	LAKES}
+	"Greater Sudbury"		{GREATER	SUDBURY}
+	"Lambton"			{LAMBTON	COUNTY}
+	"Lanark"			{LANARK		COUNTY}
+	"Leeds and Grenville"		{"LEEDS AND\nGRENVILLE" COUNTIES}
+	"Lennox and Addington"		{"LENNOX AND\nADDINGTON" COUNTY}
+	"Middlesex"			{MIDDLESEX	COUNTY}
+	"Muskoka"			{MUSKOKA	{}}
+	"Norfolk"			{NORFOLK	COUNTY}
+	"Northumberland"		{NORTHUMBERLAND	COUNTY}
+	"Ottawa"			{OTTAWA		{}}
+	"Oxford"			{OXFORD		COUNTY}
+	"Peterborough"			{PETERBOROUGH	COUNTY}
+	"Prescott and Russell"		{"PRESCOTT AND\nRUSSELL" COUNTIES}
+	"Prince Edward"			{"PRINCE\nEDWARD" COUNTY}
+	"Renfrew"			{RENFREW	COUNTY}
+	"Stormont, Dundas and Glengarry" {S.D.G.	{}}
+	"Waterloo"			{WATERLOO	REGION}
+	"Wellington"			{WELLINGTON	COUNTY}
+	"York"				{REGION		YORK}
+    }
+
+
     # New York has a great many roads that have unique shields.
     # List them here
 
@@ -715,9 +771,7 @@ proc routeGraphics::make_pngs {network ref} {
 	}
 
 	^CA:ON:primary:ETR$ {
-	    puts "ref = $ref"
 	    regsub -- { ETR$} $ref {} num
-	    puts "num = $num"
 	    set pat [findGenericTemplate CA:ON:primary:ETR $num]
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat \
@@ -758,6 +812,31 @@ proc routeGraphics::make_pngs {network ref} {
 
 	^CA:ON:tertiary$ {
 	    set pat [findGenericTemplate CA:ON:tertiary $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num} [list $ref]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	{^CA:ON:([A-Z][a-z][A-Za-z ,]*)$} {
+
+	    variable CA_ON_county_shieldcolors
+
+	    lassign $nwparts - county
+	    puts "Make shield for county: $county"
+
+	    # County roads in ontario
+
+	    set generic CA:ON:county
+	    if {[dict exists $CA_ON_county_shieldcolors $county]} {
+		append generic :[dict get $CA_ON_county_shieldcolors $county]
+	    }
+	    set pat [findGenericTemplate $generic $ref]
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat \
 		    {num} [list $ref]
