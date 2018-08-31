@@ -730,6 +730,32 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^CA:ON:secondary$ {
+	    switch -regexp -matchvar refparts $ref {
+		{(\d+)([[:alpha:]])} {
+		    lassign $refparts - num suf
+		    set pat [findGenericTemplate CA:ON:secondary_suf $num]
+		}
+		{\d+} {
+		    set num $ref
+		    set suf {}
+		    set pat [findGenericTemplate CA:ON:secondary $num]
+		}
+		default {
+		    puts "$network $ref not handled"
+		}
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num suf} [list $num $suf]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^CA:QC:A$ {
 	    set pat [findGenericTemplate CA:QC_AR $ref]
 	    if {$pat ne ""} {
