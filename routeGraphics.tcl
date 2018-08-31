@@ -720,6 +720,27 @@ proc routeGraphics::make_pngs {network ref} {
 	    set scale 1.25
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat {num} $ref
+		makePNGs $rootnetwork $ref $scale
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:NB$ {
+	    if {$ref in {2 16}} {
+		set pat CA:TCH
+	    } elseif {$ref < 100} {
+		set pat CA:NB_green
+	    } elseif {$ref < 200} {
+		set pat CA:NB_blue
+	    } else {
+		set pat CA:NB_black
+	    }
+	    set pat [findGenericTemplate $pat $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num} $ref
 		makePNGs $rootnetwork $ref
 		set ok 1
 	    }
