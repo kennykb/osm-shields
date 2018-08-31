@@ -29,6 +29,6 @@ foreach fn {
     queryprocs.sql.in
 } {
     puts stderr "Execute: $fn"
-    exec sed s/@PREFIX@/$prefix/ [file join $here $fn] \
+    exec sed s/@PREFIX@/$prefix/g [file join $here $fn] \
 	| psql -d $dbname >@stdout 2>@stderr
 }
