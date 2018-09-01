@@ -212,6 +212,7 @@ namespace eval routeGraphics {
 	SUM SUMMIT
 	TUS TUSCARAWAS
 	UNI UNION
+	VIN VINTON
 	WAY WAYNE
 	WIL WILLIAMS
 	WYA WYANDOT
@@ -2060,6 +2061,28 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
+	{^US:OH:(VIN)$} {
+
+	    # Yellow square county road shield
+
+	    variable US_OH_county_abbr
+	    if {[regexp {^US:OH:} $network]} {
+		set mod [dict get $US_OH_county_abbr [lindex $nwparts 1]]
+	    } else {
+		set mod [string toupper [lindex $nwparts 1]]
+	    }
+	    set pat [findGenericTemplate US:county:square:yellow $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num mod} [list $ref $mod]
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+
+	}
+
 	{^US:OH:(MOE)$} {
 
 	    # Custom county road shield - Monroe County, Ohio
@@ -2105,13 +2128,32 @@ proc routeGraphics::make_pngs {network ref} {
 	}
 
 	{^US:OH:HOL:(Paint)$} -
+	{^US:OH:LOG:(Jefferson)$} -
 	{^US:OH:LOG:(Liberty)$} -
 	{^US:OH:LOG:(Monroe)$} -
+	{^US:OH:MED:(Harrisville)$} -
+	{^US:OH:MED:(Wadsworth)$} -
 	{^US:OH:MRW:(Harmony)$} -
 	{^US:OH:MRW:(South Bloomfield)$} {
 	    set mod [string toupper [lindex $nwparts 1]]
 	    set num $ref
 	    set pat [findGenericTemplate US:township:square $ref]
+	    set suf {}
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {mod num suf}  [list $mod $num $suf]
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	{^US:OH:MED:(Sharon)} {
+	    set mod [string toupper [lindex $nwparts 1]]
+	    set num $ref
+	    set pat [findGenericTemplate US:township:square:green $ref]
 	    set suf {}
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat \
