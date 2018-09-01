@@ -2131,12 +2131,12 @@ db foreach row [string map [list @PREFIX@ $prefix] {
     FROM @PREFIX@_shieldroute s
     WHERE s.route = 'road'
     AND s.network IS NOT NULL
-    AND s.ref IS NOT NULL
     AND NOT EXISTS(SELECT 1
 		   FROM osm_shield_graphics g
 		   WHERE g.route = s.route
 		   AND g.network = s.network
-		   AND g.ref = s.ref)
+		   AND (g.ref = s.ref
+			OR g.ref = '' AND s.ref IS NULL))
 }] {
 
     if {$n == 0} {
