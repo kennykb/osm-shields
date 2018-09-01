@@ -649,7 +649,8 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	^CA:BC$ {
+	^CA:BC$ -
+	^CA:BC:primary$ {
 	    if {$ref in {1 16}} {
 		set mod {BRITISH COLUMBIA}
 		set pat CA:TCH_1.5.svg
@@ -1710,7 +1711,8 @@ proc routeGraphics::make_pngs {network ref} {
 	^US:TX:(NASA)$ -
 	^US:TX:(Park)$ -
 	^US:TX:(PA)$ -
-	^US:TX:(PR)$ {
+	^US:TX:(PR)$ -
+	^US:TX:(Recreational) {
 	    set mod [lindex $nwparts 1]
 	    if {$mod eq {PR}} { set mod PARK }
 	    set mod [string toupper $mod]
