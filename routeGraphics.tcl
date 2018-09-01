@@ -2130,6 +2130,8 @@ db foreach row [string map [list @PREFIX@ $prefix] {
     SELECT DISTINCT s.route, s.network, s.ref
     FROM @PREFIX@_shieldroute s
     WHERE s.route = 'road'
+    AND s.network IS NOT NULL
+    AND s.ref IS NOT NULL
     AND NOT EXISTS(SELECT 1
 		   FROM osm_shield_graphics g
 		   WHERE g.route = s.route
