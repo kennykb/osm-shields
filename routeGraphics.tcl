@@ -561,7 +561,7 @@ proc routeGraphics::findGenericTemplate {pattern ref} {
     }
 
     set widest {}
-    for {set wid 0.5} {$wid < 6} {set wid [format %g [expr {0.5 + $wid}]]} {
+    for {set wid 0.5} {$wid <= 6} {set wid [format %g [expr {0.5 + $wid}]]} {
 	set trial ${pattern}_${wid}.svg
 	if {[dict exists $templateExists $trial]} {
 	    set widest $trial
@@ -754,6 +754,28 @@ proc routeGraphics::make_pngs {network ref} {
 		set pat CA:NB_blue
 	    } else {
 		set pat CA:NB_black
+	    }
+	    set pat [findGenericTemplate $pat $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num} $ref
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:NL$ -
+	^CA:NL:R$ {
+	    if {$ref in {1}} {
+		set pat CA:TCH
+		set scale 1.2
+	    } else {
+		# Replace dashes with centred dots for compactness
+		regsub -all -- {-} $ref \u00b7 ref
+		set pat CA:NL
+		set scale 1.0
 	    }
 	    set pat [findGenericTemplate $pat $ref]
 	    if {$pat ne ""} {
