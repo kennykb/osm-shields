@@ -1649,6 +1649,27 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^US:TX:BUS$ {
+	    set mod BUS
+	    if {[regexp {^(.*)-([[:alpha:]])} $ref -> num suf]} {
+		set sfx _suffix
+	    } else {
+		set sfx ""
+		set num $ref
+		set suf {}
+	    }
+	    set pat [findGenericTemplate US:TX_banner${sfx} $num]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num suf mod} [list $num $suf $mod]
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^US:TX:FM$ {
 	    set scale 1.2
 	    if {[llength $modifiers] > 0} {
