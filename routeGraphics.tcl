@@ -2184,6 +2184,28 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
+	{^US:OH:(SCI)$} {
+
+	    # Custom county road shield - Scioto County, Ohio
+
+	    variable US_OH_county_abbr
+	    if {[regexp {^US:OH:} $network]} {
+		set mod [dict get $US_OH_county_abbr [lindex $nwparts 1]]
+	    } else {
+		set mod [string toupper [lindex $nwparts 1]]
+	    }
+	    set pat [findGenericTemplate US:OH:SCI $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num mod} [list $ref $mod]
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+
+	}
+
 	{^US:OH:HOL:(Paint)$} -
 	{^US:OH:LOG:(Jefferson)$} -
 	{^US:OH:LOG:(Liberty)$} -

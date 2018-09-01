@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="48"
+   height="48"
+   id="svg3607"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="US:OH:Scioto_3.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="852"
+     id="namedview3199"
+     showgrid="false"
+     inkscape:zoom="12.3125"
+     inkscape:cx="19.668871"
+     inkscape:cy="27.976255"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3607"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3609">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect3049"
+       is_visible="true" />
+  </defs>
+  <rect
+     style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#f7921e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.08571429;marker:none;enable-background:accumulate"
+     id="rect3776"
+     y="0"
+     x="0"
+     ry="1.0909091"
+     rx="1.0909091"
+     height="48"
+     width="48" />
+  <path
+     d="M 3.28371,2.94998 C 4.03662,3.05997 5.0675,2.71418 5.56784,3.41058 5.68228,4.1224 5.96359,4.87214 6.7475,5.04622 7.65559,5.31896 6.64709,6.3887 7.15485,6.94774 6.92221,7.69503 7.2943,8.58345 8.15149,8.46715 c 5.5421,0.25102 11.09727,-0.39385 16.635,0 4.36947,0.19766 8.73343,-0.30547 13.0958,0 -0.19847,2.58193 -0.33382,5.8045 -0.486,8.39168 2.47367,0.0671 4.93793,0.31008 7.40571,0.47829 -0.1572,3.642 -0.26779,7.28636 -0.57086,10.91998 -0.45093,0.35215 0.11799,1.70892 -0.97499,1.23308 -0.65043,0.0381 -1.77522,-0.4759 -1.52965,0.60503 -0.21331,1.62722 -0.11651,3.31789 -0.55016,4.90002 -0.008,0.97849 -1.03342,0.45623 -1.66212,0.51185 -0.78055,-0.0561 -1.5611,-0.11217 -2.34165,-0.16826 0.0189,1.08891 -0.24714,2.22938 -0.0536,3.2867 0.54368,1.27407 1.10506,2.54047 1.65819,3.81044 -1.68197,0.76111 -3.36952,1.5101 -5.05285,2.268 -1.20026,-0.67685 -1.35864,-1.20828 -1.63943,-2.60555 -0.62219,-1.71113 0.058,0.0559 -0.7214,-1.60177 -0.47541,-0.86751 -1.23201,-1.74295 -0.85419,-2.79454 0.0314,-1.21208 -1.40218,-1.13499 -2.15402,-2.2873 -0.37777,-0.77032 -1.31568,-0.99186 -2.07529,-0.5748 -1.45539,0.29863 -1.38399,0.54877 -2.51126,1.51602 -1.03535,0.8106 -2.32921,-0.11151 -3.4578,0.0222 -0.83679,0.2817 -1.55468,0.82467 -1.8133,1.70131 -0.35573,1.17377 -1.49166,1.69218 -2.53453,2.12047 -1.00128,0.47362 -2.21145,0.86305 -2.59841,2.02307 -0.61819,1.09266 -0.71096,1.45843 -1.943,2.10666 -0.90663,0.5049 -2.0516,0.35564 -3.05383,0.58846 C 6.96975,45.26327 5.99577,43.54475 4.63347,43.94966 4.148,44.03086 3.12318,45.33583 3.3165,44.38929 3.368,33.09754 3.43867,17.6688 3.3075,6.37732 3.2995,5.23487 3.2918,4.09242 3.284,2.94997 Z"
+     id="Scioto"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cccccccccccccccccccccccccccccccccc"
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6857143;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <text
+     x="23"
+     y="-184"
+     id="text4140"
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0%;font-family:'Roadgeek 2005 Series D';-inkscape-font-specification:'Roadgeek 2005 Series D';text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><tspan
+       x="23"
+       y="-184"
+       id="tspan4142" /></text>
+  <text
+     x="24.02243"
+     y="6.3872986"
+     id="text4144"
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.67590618px;line-height:0%;font-family:'Roadgeek 2005 Series D';-inkscape-font-specification:'Roadgeek 2005 Series D';text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.08571429"><tspan
+       x="24.02243"
+       y="6.3872986"
+       id="tspan4146"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Bold';fill:#000000;fill-opacity:1;stroke-width:0.08571429;font-size:7.67586644px;text-anchor:middle;text-align:center;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal">SCIOTO</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24px;line-height:125%;font-family:'Roadgeek 2000 Series C';-inkscape-font-specification:'Roadgeek 2000 Series C, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+     x="20.710659"
+     y="31.1066"
+     id="text829"><tspan
+       sodipodi:role="line"
+       id="tspan831">%num%</tspan></text>
+</svg>
