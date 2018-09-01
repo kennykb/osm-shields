@@ -2140,6 +2140,25 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
+	{^US:OH:(ASD)$} -
+	{^US:OH:(ASD):(TWP)$} {
+
+	    # Custom county road shield - Ashland County, Ohio
+
+	    lassign $nwparts -> county mod
+	    if {$mod == ""} { set mod CO }
+	    set pat [findGenericTemplate US:OH:ASD $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num mod} [list $ref $mod]
+		makePNGs $rootnetwork $ref 1.15
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+
+	}
+	
 	{^US:OH:(MOE)$} {
 
 	    # Custom county road shield - Monroe County, Ohio
