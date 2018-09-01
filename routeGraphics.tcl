@@ -909,7 +909,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    } else {
 		set pat CA:NS_collector_3.svg
 		makeSVG $rootnetwork $ref $pat {num} [list $ref]
-		makePNGs $rootnetwork $ref 1.0
+		makePNGs $rootnetwork $ref 0.5
 		set ok 1
 	    }
 	    if {$ok} {
@@ -931,6 +931,7 @@ proc routeGraphics::make_pngs {network ref} {
 		set scale 1.2
 	    } else {
 		set pat [findGenericTemplate CA:NS_collector $ref]
+		set scale 0.5
 	    }
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat \
