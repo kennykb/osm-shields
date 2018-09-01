@@ -1006,6 +1006,34 @@ proc routeGraphics::make_pngs {network ref} {
 	    stackModifiers $network $rootnetwork $ref $modifiers
 	}
 
+	^CA:SK$ {
+	    set b {}
+	    if {$ref in {1 16 16A 16B}} {
+		set b CA:TCH
+		set scale 1.3
+	    } elseif {$ref < 400} {
+		set b CA:SK:primary
+		set scale 1.0
+	    } elseif {$ref >= 600 && $ref < 800} {
+		set b CA:SK:rural
+		set scale 1.6
+	    } elseif {$ref >= 900 && $ref < 1000} {
+		set b CA:SK:primary
+		set scale 1.0
+	    }
+	    if {$b != {}} {
+		set pat [findGenericTemplate $b $ref]
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+	
 	^CA:transcanada$ -
 	^CA:yellowhead$ {
 	    # Yellowhead Route is signed TCH for most of its length.
