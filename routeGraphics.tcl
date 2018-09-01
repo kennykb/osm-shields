@@ -650,7 +650,8 @@ proc routeGraphics::make_pngs {network ref} {
 	}
 
 	^CA:BC$ -
-	^CA:BC:primary$ {
+	^CA:BC:primary$ -
+	^CA:BC:trunk$ {
 	    if {$ref in {1 16}} {
 		set mod {BRITISH COLUMBIA}
 		set pat CA:TCH_1.5.svg
