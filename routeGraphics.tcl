@@ -995,7 +995,11 @@ proc routeGraphics::make_pngs {network ref} {
 	    # Also bears a custom shield in many places, but let TCH
 	    # dominate for now.
 
-	    set pat [findGenericTemplate CA:TCH $ref]
+	    if {$ref eq {}} {
+		set pat CA:TCH_1.5.svg
+	    } else {
+		set pat [findGenericTemplate CA:TCH $ref]
+	    }
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]
 		makePNGs $rootnetwork $ref 1.0
@@ -1767,6 +1771,8 @@ proc routeGraphics::make_pngs {network ref} {
 		stackModifiers $network $rootnetwork $ref $modifiers
 	    }
 	}
+
+	{^US:CA:CR()$} -
 
 	{^US:FL:CR:([^:]+)$} -
 
