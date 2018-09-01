@@ -844,7 +844,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	{^CA:ON:([A-Z][a-z][A-Za-z ,]*)$} {
+	{^CA:ON:([A-Z][a-z][A-Za-z ,-]*)$} {
 
 	    variable CA_ON_county_shieldcolors
 
