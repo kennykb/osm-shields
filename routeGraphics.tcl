@@ -1793,6 +1793,14 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	{^US:WI:Rustic$} {
+	    set pat US:WI:Rustic.svg
+	    set ok 1
+	    makeSVG $rootnetwork $ref $pat {num} [list $ref]
+	    makePNGs $rootnetwork $ref 1.5
+	    stackModifiers $network $rootnetwork $ref $modifiers
+	}
+
 	{^US:CA:CR()$} -
 
 	{^US:FL:CR:([^:]+)$} -
