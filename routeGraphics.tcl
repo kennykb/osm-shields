@@ -176,12 +176,18 @@ namespace eval routeGraphics {
     # Ohio abbreviates its county names - expand them here
 
     variable US_OH_county_abbr {
+	ATH ATHENS
 	AUG AUGLAIZE
  	BEL BELMONT
+	BUT BUTLER
+	CAR CARROLL
 	COL COLUMBIANA
+	COS COSHOCTON
 	FAI FAIRFIELD
 	FUL FULTON
+	GAL GALLIA
 	GUE GUERNSEY
+	HAR HARDIN
 	HAS HARRISON
 	HEN HENRY
 	HOC HOCKING
@@ -189,18 +195,26 @@ namespace eval routeGraphics {
 	KNO KNOX
 	JEF JEFFERSON
 	LAW LAWRENCE
+	LIC LICKING
 	LOG LOGAN
+	LUC LUCAS
 	MAH MAHONING
+	MED MEDINA
 	MOE MONROE
 	MRW MORROW
 	NOB NOBLE
 	OTT OTTAWA
 	PAU PAULDING
 	PER PERRY
+	SCI SCIOTO
+	SEN SENECA
+	STA STARK
 	SUM SUMMIT
 	TUS TUSCARAWAS
+	UNI UNION
 	WAY WAYNE
 	WIL WILLIAMS
+	WYA WYANDOT
     }
 
     proc finish {} {
@@ -1813,19 +1827,21 @@ proc routeGraphics::make_pngs {network ref} {
 	{^US:IA:(Adams|Boone|Bremer|Buena Vista|Cedar|Chickasaw|Clayton)$} -
 	{^US:IA:(Dallas|Delaware|Des Moines|Floyd|Franklin|Hardin|Harrison)$} -
 	{^US:IA:(Henry|Ida|Jasper|Keokuk|Lee|Lucas|Marshall|Monona)$} -
-	{^US:IA:(Plymouth|Polk|Pottawamie|Sac|Shelby|Story|Van Buren)$} -
+	{^US:IA:(Plymouth|Polk|Pottawattamie|Sac|Shelby|Story|Van Buren)$} -
 	{^US:IA:(Wayne|Woodbury|Worth)$} -
 
 
 	{^US:IL:(Champaign)$} -
 	{^US:IL:(Cook)$} -
-	{^US:IL:(DuPage)$} -
+	{^US:IL:(Du[Pp]age)$} -
 	{^US:IL:(Kane)$} -
 	{^US:IL:(Lake)$} -
 	{^US:IL:(Livingston)$} -
 	{^US:IL:(Macon)$} -
+	{^US:IL:(McDonough)$} -
 	{^US:IL:(McHenry)$} -
 	{^US:IL:(Peoria)$} -
+	{^US:IL:(Shelby)$} -
 
 	{^US:MI:(Leelanau)$} -
 	{^US:MI:(Marquette)$} -
@@ -1881,7 +1897,7 @@ proc routeGraphics::make_pngs {network ref} {
 	{^US:NY:(Washington)$} -
 	{^US:NY:(Westchester)$} -
 	{^US:NY:(Yates)$} -
-	{^US:OH:(COL|JEF|MAH|OTT|SUM|TUS)$} {
+	{^US:OH:(COL|JEF|LUC|MAH|OTT|SEN|STA|SUM|TUS)$} {
 
 	    # MUTCD county road shield
 
@@ -1907,7 +1923,7 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
-	{^US:MN:(Aitkin|Anoka|Becker|Beltrami|Benton)$} -
+	{^US:MN:(Aitkin|Alger|Anoka|Becker|Beltrami|Benton)$} -
 	{^US:MN:(Big Stone|Blue Earth|Brown|Carlton|Carver)$} -
 	{^US:MN:(Cass|Chippewa|Chisago|Clay|Clearwater)$} -
 	{^US:MN:(Cook|Cottonwood|Crow Wing|Dakota|Dodge)$} -
@@ -1917,14 +1933,16 @@ proc routeGraphics::make_pngs {network ref} {
 	{^US:MN:(Koochiching|Lac qui parle|Lake|Lake of the Woods)$} -
 	{^US:MN:(Le Sueur|Lincoln|Lyon|Martin|McLeod)$} -
 	{^US:MN:(Meeker|Mille Lacs|Murray|Nicollet|Nobles)$} -
-	{^US:MN:(Olmsted|Pine|Pipestone|Pope|Ramsay)$} -
+	{^US:MN:(Olmsted|Pine|Pipestone|Pope|Ramsey)$} -
 	{^US:MN:(Redwood|Renville|Rice|Sibley|Stearns)$} -
 	{^US:MN:(Steele|Stevens|Swift|Traverse|Waseca|Washington)$} -
 	{^US:MN:(Watonwan|Wilkin|Winona|Wright|Yellow Medicine)$} -
 
 	{^US:NJ:(Bergen)$} -
 
-	{^US:OH:(AUG|FAI|FUL|HAS|HOC|HOL|KNO|LAW|LOG|MRW|PER|SHE|WAY)$}  {
+	{^US:OH:(AUG|CAR|COS|FAI|FUL|GAL|HAS|HOC)$} -
+	{^US:OH:(HOL|KNO|LAW|LIC|LOG|MRW)$} -
+	{^US:OH:(PER|SHE|UNI|WAY|WYA)$}  {
 
 	    # Square county road shield
 
@@ -1956,7 +1974,7 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 	
-	{^US:OH:(BEL|GUE|HEN|WIL)$} {
+	{^US:OH:(ATH|BEL|GUE|HAR|HEN|WIL)$} {
 
 	    # Green square county road shield
 
@@ -1978,7 +1996,7 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
-	{^US:OH:(NOB)$} {
+	{^US:OH:(MED|NOB)$} {
 
 	    # Blue square county road shield
 
@@ -2079,13 +2097,13 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	{^US:WI:(Brown|Buffalo|Calumet|Columbia)} -
+	{^US:WI:(Bayfield|Brown|Buffalo|Calumet|Columbia)} -
 	{^US:WI:(Dane|Dodge|Door|Dunn|Eau_Claire)$} -
 	{^US:WI:(Fond_du_Lac|Fond du Lac)$} -
-	{^US:WI:(Grant|Green_Lake|Jefferson|Langlade|Lincoln)$} -
+	{^US:WI:(Grant|Green_Lake|Iron|Jefferson|Langlade|Lincoln)$} -
 	{^US:WI:(Marathon|Marquette|Menominee|Milwaukee)$} -
 	{^US:WI:(Oconto|Outagamie|Ozaukee|Pepin|Portage)$} -
-	{^US:WI:(Rock|Saint Croix|Sauk|Shawano|Sheboygan)$} -
+	{^US:WI:(Rock|Saint Croix|Sauk|Shawano|Sheboygan|Vilas)$} -
 	{^US:WI:(Walworth|Washington|Waukesha|Waupaca|Waushara|Winnebago)$} {
 
 	    # Wisconsin county road shield is a simple square
@@ -2103,10 +2121,11 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
-	{^US:WV:(Berkeley|Hancock|Mineral|Monongalia|Preston|Wood)$} {
+	{^US:WV:(Berkeley|Carbon|Hancock|Marion|Mineral)$} -
+	{^US:WV:(Monongalia|Preston|Tucker|Wood)$} {
 
 	    # West Virginia county roads have circular shields that may be
-	    # divided. Slashes in the route number have been converted to colons
+	    # divided. 
 
 	    set mod [string toupper [lindex $nwparts 1]]
 	    if {[regexp {(.*)/(.*)} $ref -> num suf]} {
