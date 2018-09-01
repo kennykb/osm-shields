@@ -1951,6 +1951,7 @@ proc routeGraphics::make_pngs {network ref} {
 	{^US:NJ:(Essex|Gloucester|Hudson|Mercer|Middlesex|Monmouth)$} -
 	{^US:NJ:(Morris|Ocean|Passaic|Somerset|Sussex)$} -
 	{^US:NJ:(Union|Warren)$} -
+	{^US:NJ:CR$} -
 
 	{^US:NY:(Albany)$} -
 	{^US:NY:(Allegany)$} -
