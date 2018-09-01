@@ -869,6 +869,30 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^CA:PEI$ {
+	    if {$ref eq {1}} {
+		set pat [findGenericTemplate CA:TCH $ref]
+		set num $ref
+		set suf {}
+	    } elseif {[regexp {^(\d+)([A-Z]?)$} $ref -> num suf]} {
+		if {$suf ne {}} {
+		    set b CA:PEI_suf
+		} else {
+		    set b CA:PEI
+		}
+		set pat [findGenericTemplate $b $num]
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num suf} [list $num $suf]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^CA:QC:A$ {
 	    set pat [findGenericTemplate CA:QC_AR $ref]
 	    if {$pat ne ""} {
