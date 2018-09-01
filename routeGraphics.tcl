@@ -1346,7 +1346,19 @@ proc routeGraphics::make_pngs {network ref} {
 		stackModifiers $network $rootnetwork $ref $modifiers
 	    }
 	}
-	    
+
+	^US:MT:secondary$ {
+	    set pat [findGenericTemplate US:MT:Secondary $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num} $ref
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^US:NE:Recreation$ {
 	    if {![regexp {^(.*)([[:alpha:]])$} $ref -> num suf]} {
 		set num $ref
