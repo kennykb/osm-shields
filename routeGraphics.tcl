@@ -780,7 +780,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    set pat [findGenericTemplate $pat $ref]
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat {num} $ref
-		makePNGs $rootnetwork $ref
+		makePNGs $rootnetwork $ref $scale
 		set ok 1
 	    }
 	    if {$ok} {
@@ -788,6 +788,92 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^CA:NS:T {
+	    if {![string is integer -strict $ref]} {
+		set ok 0
+	    } else {
+		set pat [findGenericTemplate US:US $ref]
+		makeSVG $rootnetwork $ref $pat {num} [list $ref]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:NS:H {
+	    if {![string is integer -strict $ref]} {
+		set ok 0
+	    } else {
+		set pat CA:NS_arterial_2.5.svg
+		if {$ref >= 104 && $ref <= 106} {
+		    set pat [findGenericTemplate CA:TCH $ref]
+		}
+		if {$pat ne ""} {
+		    makeSVG $rootnetwork $ref $pat {num} [list $ref]
+		    makePNGs $rootnetwork $ref 1.2
+		    set ok 1
+		}
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:NS:R {
+	    if {![string is integer -strict $ref]} {
+		set ok 0
+	    } else {
+		set pat CA:NS_collector_3.svg
+		makeSVG $rootnetwork $ref $pat {num} [list $ref]
+		makePNGs $rootnetwork $ref 0.5
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:NS$ {
+	    set scale 1.0
+	    if {![string is integer -strict $ref]} {
+		set ok 0
+	    } elseif {$ref < 100} {
+		# Nova Scotia trunk roads look just like US Highways
+		set pat [findGenericTemplate US:US $ref]
+	    } elseif {$ref >= 104 && $ref <= 106} {
+		set pat [findGenericTemplate CA:TCH $ref]
+	    } elseif {$ref < 200} {
+		set pat [findGenericTemplate CA:NS_arterial $ref]
+		set scale 1.2
+	    } else {
+		set pat [findGenericTemplate CA:NS_collector $ref]
+		set scale 0.5
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num} [list $ref]
+		makePNGs $rootnetwork $ref $scale
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+	    
+	^CA:NT$ {
+	    set pat [findGenericTemplate CA:NT $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num} $ref
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+	    
 	^CA:ON:primary$ {
 	    set tpos [lsearch -nocase -exact Toll $modifiers]
 	    if {$tpos >= 0} {
@@ -908,81 +994,6 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	^CA:NS:T {
-	    if {![string is integer -strict $ref]} {
-		set ok 0
-	    } else {
-		set pat [findGenericTemplate US:US $ref]
-		makeSVG $rootnetwork $ref $pat {num} [list $ref]
-		makePNGs $rootnetwork $ref 1.0
-		set ok 1
-	    }
-	    if {$ok} {
-		stackModifiers $network $rootnetwork $ref $modifiers
-	    }
-	}
-
-	^CA:NS:H {
-	    if {![string is integer -strict $ref]} {
-		set ok 0
-	    } else {
-		set pat CA:NS_arterial_2.5.svg
-		if {$ref >= 104 && $ref <= 106} {
-		    set pat [findGenericTemplate CA:TCH $ref]
-		}
-		if {$pat ne ""} {
-		    makeSVG $rootnetwork $ref $pat {num} [list $ref]
-		    makePNGs $rootnetwork $ref 1.2
-		    set ok 1
-		}
-	    }
-	    if {$ok} {
-		stackModifiers $network $rootnetwork $ref $modifiers
-	    }
-	}
-
-	^CA:NS:R {
-	    if {![string is integer -strict $ref]} {
-		set ok 0
-	    } else {
-		set pat CA:NS_collector_3.svg
-		makeSVG $rootnetwork $ref $pat {num} [list $ref]
-		makePNGs $rootnetwork $ref 0.5
-		set ok 1
-	    }
-	    if {$ok} {
-		stackModifiers $network $rootnetwork $ref $modifiers
-	    }
-	}
-
-	^CA:NS$ {
-	    set scale 1.0
-	    if {![string is integer -strict $ref]} {
-		set ok 0
-	    } elseif {$ref < 100} {
-		# Nova Scotia trunk roads look just like US Highways
-		set pat [findGenericTemplate US:US $ref]
-	    } elseif {$ref >= 104 && $ref <= 106} {
-		set pat [findGenericTemplate CA:TCH $ref]
-	    } elseif {$ref < 200} {
-		set pat [findGenericTemplate CA:NS_arterial $ref]
-		set scale 1.2
-	    } else {
-		set pat [findGenericTemplate CA:NS_collector $ref]
-		set scale 0.5
-	    }
-	    if {$pat ne ""} {
-		makeSVG $rootnetwork $ref $pat \
-		    {num} [list $ref]
-		makePNGs $rootnetwork $ref $scale
-		set ok 1
-	    }
-	    if {$ok} {
-		stackModifiers $network $rootnetwork $ref $modifiers
-	    }
-	}
-	    
-
 	^CA:PEI$ {
 	    if {$ref eq {1}} {
 		set pat [findGenericTemplate CA:TCH $ref]
@@ -1046,6 +1057,22 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	    if {$b != {}} {
 		set pat [findGenericTemplate $b $ref]
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]
+		makePNGs $rootnetwork $ref 1.0
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
+	^CA:YT$ {
+	    if {$ref in {1 2 3 4 5 6 7 8 9 10 11 37}} {
+		set pat CA:YT:$ref.svg
+	    } else {
+		set pat [findGenericTemplate rectangle_thick $ref]
 	    }
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]

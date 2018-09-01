@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="601"
+   height="601"
+   id="svg3607"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Yukon Highway 5.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1600"
+     inkscape:window-height="845"
+     id="namedview22"
+     showgrid="false"
+     inkscape:zoom="0.55533178"
+     inkscape:cx="88.704119"
+     inkscape:cy="68.589722"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g3778">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3778" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3609" />
+  <g
+     id="g3778">
+    <rect
+       width="600"
+       height="600"
+       rx="37.5"
+       ry="37.5"
+       x="0.50000018"
+       y="0.50000179"
+       id="rect3617"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
+    <rect
+       width="581.25"
+       height="581.25"
+       rx="28.125"
+       ry="28.125"
+       x="9.375"
+       y="10.375"
+       id="rect4130"
+       style="fill:#0609a6;fill-opacity:1;stroke:none" />
+    <rect
+       width="550"
+       height="550"
+       rx="12.5"
+       ry="12.5"
+       x="25"
+       y="26"
+       id="rect3776"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       style="fill:#0609a6;fill-opacity:1;stroke:none"
+       d="m 251.66276,307.94337 c 15,-5 26.30022,-11.09773 40,-10 12.6524,1.0138 26.77027,5.33653 35,15 8.91099,10.46342 10,26.25631 10,40 0,13.74369 -2.26513,28.63951 -10,40 -8.0689,11.85109 -20.76567,23.28549 -35,25 -8.91087,1.07331 -18.98599,-3.33762 -25,-10 -8.13023,-9.00675 -2.2511,-25.66315 -10,-35 -4.76011,-5.73558 -12.55288,-9.69024 -20,-10 -8.96752,-0.373 -19.9682,2.56787 -25,10 -6.54067,9.66078 -5.65563,24.79584 0,35 7.62216,13.75227 25.18455,19.73459 40,25 12.66125,4.49981 26.57186,5.49062 40,5 16.9854,-0.62059 34.29707,-3.49563 50,-10 11.10365,-4.59928 21.8727,-11.14611 30,-20 8.30739,-9.05008 14.0028,-20.59925 17.74909,-32.29891 4.80317,-15.0003 6.10068,-33.90293 2.25091,-48.10327 -4.285,-15.80575 -7.4674,-24.53497 -15,-34.59782 -7.80061,-10.42089 -18.16761,-19.57423 -30,-25 -9.21528,-4.22569 -19.86206,-5 -30,-5 -10.13794,0 -20.23704,2.26828 -30,5 -8.6433,2.41844 -16.03248,10.373 -25,10 -3.72356,-0.15488 -10,-1.27322 -10,-5 l 0,-45 c 0,-4.71405 5.28595,-10 10,-10 l 60,0 c 22.66912,0 39.39857,-15.88193 55,-40 5.13378,-7.93625 -1.49895,-14.82692 -10,-15 -4.72378,-0.0962 -22.86648,10 -35,10 l -95,0 c -4.71405,0 -10,5 -10,10 l 0,115 c 0,25 16.4853,12.83823 25,10 z"
+       id="path3780"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="saaaaaaaaaaaaaassaaaaasssssssssss" />
+  </g>
+  <text
+     x="299"
+     y="93"
+     id="text4140"
+     xml:space="preserve"
+     style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Roadgeek 2005 Series D;-inkscape-font-specification:Roadgeek 2005 Series D"><tspan
+       x="299"
+       y="93"
+       id="tspan4142" /></text>
+</svg>
