@@ -2288,6 +2288,17 @@ proc routeGraphics::make_pngs {network ref} {
 	    
 	}
 
+	{^US:BIA$} {
+	    set pat [findGenericTemplate US:BIA $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num}  [list $ref]
+		makePNGs $rootnetwork $ref
+		set ok 1
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	{^USFS()$} -
 	{^US:NFSR:(.*):NF[HR]} {
 	    # Don't try to fit the name of the forest on the shield!
