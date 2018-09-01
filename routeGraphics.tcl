@@ -1042,6 +1042,20 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^MX:QRO$ -
+	^QRO$ {
+	    regsub {^QRO } $ref {} ref
+	    set pat [findGenericTemplate MX:QRO $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	^CA:MB:Winnipeg$ -
 	^US:AK$ -
 	^US:AL$ -
