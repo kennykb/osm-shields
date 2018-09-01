@@ -1627,14 +1627,21 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	^US:OK(?:Turnpike)?$ {
-	    if {[regexp {^([0-9]+)([A-Z])$} $ref -> num suf]} {
+	^US:OK(:Turnpike)?$ {
+	    set tpk [lindex $nwparts 1]
+	    if {$tpk eq ":Turnpike"} {
+		set pat US:OK-Turnpike.svg
+		set num {}
+		set suf {}
+	    } elseif {[regexp {^([0-9]+)([A-Z])$} $ref -> num suf]} {
 		set pat [findGenericTemplate US:OK_suf $num]
 	    } elseif {[regexp {^[0-9]+$} $ref num]} {
 		set pat [findGenericTemplate US:OK $num]
 		set suf {}
 	    } elseif {[regexp {^(.*) TURNPIKE} $ref -> num suf]} {
 		set pat US:OK-Turnpike.svg
+		set num {}
+		set suf {}
 	    } else {
 		puts stderr "$network $ref not handled"
 	    }
