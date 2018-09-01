@@ -2279,6 +2279,20 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	{^US:OH:SAN:Fremont$} {
+	    set pat [findGenericTemplate US:OH:SAN:Fremont $ref]
+	    set suf {}
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num}  [list $ref]
+		makePNGs $rootnetwork $ref 1.25
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+
 	{^US:WI:(Bayfield|Brown|Buffalo|Calumet|Columbia)} -
 	{^US:WI:(Dane|Dodge|Door|Dunn|Eau_Claire)$} -
 	{^US:WI:(Fond_du_Lac|Fond du Lac)$} -
