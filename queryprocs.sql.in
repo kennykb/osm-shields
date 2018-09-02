@@ -254,7 +254,14 @@ LANGUAGE plpgsql
 AS
 $@PREFIX@_analyze_markers$
 BEGIN
-    RETURN QUERY (
+    RETURN QUERY ((
+
+        --------------------------------------------------------------
+	--                                                          --
+        -- Pathway for places that use route relations to represent --
+	-- road routes                                              --
+	--                                                          --
+        --------------------------------------------------------------
 
         -- The first common table expression does the following things:
 	--   + Unpacks the input array into a set of rows again.
@@ -379,7 +386,125 @@ BEGIN
              q40.flabels[8].filename AS picture_8,
 	     q40.flabels[8].label    AS label_8
       FROM q40
-    );	    
+
+      ----------------------------------------------------------------
+      --                                                            --
+      -- End of the pathway that works with route relations         --
+      --                                                            --
+      ----------------------------------------------------------------
+
+      ) UNION ALL (
+
+      ----------------------------------------------------------------
+      --                                                            --
+      -- Pathway for places that represent road routes only with    --
+      -- (possibly multiply-valued) 'ref' tags on the relation      --
+      --                                                            --
+      ----------------------------------------------------------------
+
+      -- From all the input roads, isolate the ones that have 'ref'
+      -- tags, are not link roads, and do not participate in route
+      -- relations.  Group the ones that have the same sets of refs
+      -- and are the same type of highway.  Merge the linstrings
+      -- for the grouped sets. Pass on the merged ways, the
+      -- highway type, and an array of refs.
+      --
+      -- TODO: The deprecated ref_1, ref_2, ... may have to be
+      --       included here.
+
+      WITH q110 AS (
+        SELECT
+	  ST_LineMerge(ST_Union(rd.way))                      AS way,
+	  STRING_TO_ARRAY(rd."ref", ';')                      AS refs,
+	  rd.highway                                          AS highway
+	FROM UNNEST(segs) AS rd
+	LEFT JOIN @PREFIX@_shieldway sw
+	       ON sw.wayid = rd.osm_id
+	WHERE rd.highway NOT LIKE '%_link'
+	  AND rd."ref"   IS NOT NULL
+	  AND sw.wayid   IS NULL
+	GROUP BY highway, refs  
+      ),
+
+      -- Refs longer than 10 characters won't fit on a rendered shield,
+      -- so it's not reasonable to keep them here. Discard them.
+
+      q120 AS (
+          SELECT q110.way                     AS way,
+		 q110.highway                 AS highway,
+		 (SELECT ARRAY_AGG(x)
+		  FROM UNNEST(q110.refs) AS x
+		  WHERE LENGTH(x) <= 10)      AS refs
+          FROM q110
+      ),
+
+      -- For each set of merged roads, make a string of refs separated by
+      -- newlines. Calculate the width and height, in characters, of a box
+      -- big enough to display them
+
+      q130 AS (
+          SELECT q120.way                          AS way,
+	                             -- The linestrings that get shields
+				     
+                 q120.highway                      AS highway,
+		                     -- The type of highway
+				     
+		 ARRAY_TO_STRING(q120.refs, E'\n') AS refstack,
+		                     -- The references, stacked with newlines
+
+                 (SELECT MAX(LENGTH(x))
+		    FROM UNNEST(q120.refs) AS x
+		 )                                 AS w,
+		                     -- The maximum width of a reference
+
+		 CARDINALITY(q120.refs)            AS h
+		                     -- The height of the stack of references
+          FROM q120
+      ),
+
+      -- Go find the appropriate box to surround the labels
+
+      q140 AS (
+          SELECT q130.way                          AS way,
+	         g.id                              AS gid,
+	         g.filename                        AS picture,
+		 q130.refstack                     AS label
+	    FROM q130
+	    JOIN osm_shield_graphics g
+	      ON g.route = 'road'
+	     AND g.network = CASE
+	                     WHEN q130.highway IN ('motorway', 'primary',
+			     	                   'trunk', 'secondary')
+			     THEN 'generic-' || q130.highway
+			     ELSE 'generic-other'
+			     END
+	     AND g.ref = q130.h || 'x' || q130.w
+      )
+
+      -- Package the result. We put all the stacked refs in a single marker
+
+      SELECT q140.way                      AS way,
+             q140.gid || '~' || q140.label AS repeat_key,
+	     q140.picture                  AS picture_1,
+	     q140.label		           AS label_1,
+	     NULL                          AS picture_2,
+	     NULL                          AS label_2,
+	     NULL                          AS picture_3,
+	     NULL                          AS label_3,
+	     NULL                          AS picture_4,
+	     NULL                          AS label_4,
+	     NULL                          AS picture_5,
+	     NULL                          AS label_5,
+	     NULL                          AS picture_6,
+	     NULL                          AS label_6,
+	     NULL                          AS picture_7,
+	     NULL                          AS label_7,
+	     NULL                          AS picture_8,
+	     NULL                          AS label_8
+      FROM q140
+		
+     
+    ));	    
 END
 $@PREFIX@_analyze_markers$
 \g

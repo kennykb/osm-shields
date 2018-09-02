@@ -2415,11 +2415,11 @@ dict for {highway colour} $markerColours {
     set stroke [format "#%02x%02x%02x" \
 		    [expr {$r/2}] [expr {$g/2}] [expr {$b/2}]]
     for {set cwidth 1} {$cwidth <= 10} {incr cwidth} {
-	set rectwidth [expr {$charWidth * $cwidth + ($charWidth/2)}]
+	set rectwidth [expr {$charWidth * $cwidth + 6}]
 	set canvwidth [expr {$rectwidth + 2}]
 	for {set cheight 1} {$cheight <= 4} {incr cheight} {
 	    puts stderr  "${cheight}x${cwidth}..."
-	    set rectheight [expr {$charHeight*$cheight + $charHeight - 2}]
+	    set rectheight [expr {$charHeight*$cheight + 4}]
 	    set canvheight [expr {$rectheight + 2}]
 	    set froot $highway-${cheight}x${cwidth}
 	    set svgname [file join $tmpDir generic $froot.svg]

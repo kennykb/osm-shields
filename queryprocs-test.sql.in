@@ -1,27 +1,23 @@
 
 -- test
 
-SELECT     repeat_key, picture_1, picture_2, picture_3, picture_4,
-           picture_5, picture_6, picture_7, picture_8
+SELECT     repeat_key, picture_1, label_1, picture_2, label_2
 FROM @PREFIX@_query_shields_roads_motorway(
-    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
+    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5436000.), 28
 )
 \g
-SELECT     repeat_key, picture_1, picture_2, picture_3, picture_4,
-           picture_5, picture_6, picture_7, picture_8
+SELECT     repeat_key, picture_1, label_1, picture_2, label_2
 FROM @PREFIX@_query_shields_roads_major(
-    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
+    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5346000.), 28
 )
 \g
-SELECT     repeat_key, picture_1, picture_2, picture_3, picture_4,
-           picture_5, picture_6, picture_7, picture_8
+SELECT     repeat_key, picture_1, label_1, picture_2, label_2
 FROM @PREFIX@_query_shields_roads_all(
-    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
+    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5346000.), 28
 )
 \g
-SELECT     repeat_key, picture_1, picture_2, picture_3, picture_4,
-           picture_5, picture_6, picture_7, picture_8
+SELECT     repeat_key, picture_1, label_1, picture_2, label_2
 FROM @PREFIX@_query_shields_line_all(
-    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5283328.), 28
+    ST_MakeEnvelope(-8238078.,5244191.,-8198941.,5346000.), 28
 )
 \g

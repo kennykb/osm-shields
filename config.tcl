@@ -35,6 +35,6 @@ set markerColours {
 # Height and width of an average character in the font to be used
 # on highway shields
 
-set charHeight 11
-set charWidth 8
+set charHeight 13
+set charWidth 7
 
