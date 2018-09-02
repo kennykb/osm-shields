@@ -19,6 +19,57 @@
 --
 --      sed s/@PREFIX@/planet_osm/g <queryprocs.sql.in | psql -d gis
 
+
+--------------------
+-- INITIALIZATION --
+--------------------
+
+-- Clean up any trash from a previous run
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_motorway(GEOMETRY, INT)
+     CASCADE
+\g
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_major(GEOMETRY, INT)
+     CASCADE
+\g
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_all(GEOMETRY, INT)
+     CASCADE
+\g
+
+DROP FUNCTION IF EXISTS @PREFIX@_query_shields_line_all(GEOMETRY, INT)
+     CASCADE
+\g
+
+DROP FUNCTION IF EXISTS @PREFIX@_analyze_markers(@PREFIX@_road_segment[], INT)
+     CASCADE
+\g
+
+DROP FUNCTION IF EXISTS @PREFIX@_make_repeat_key(@PREFIX@_gid_label[])
+     CASCADE
+\g
+
+DROP FUNCTION IF EXISTS @PREFIX@_gids_to_files(INT[])  -- former function
+     CASCADE
+\g
+
+
+DROP FUNCTION IF EXISTS @PREFIX@_gids_to_files(@PREFIX@_gid_label[])
+     CASCADE
+\g
+
+DROP TYPE IF EXISTS @PREFIX@_file_label CASCADE
+\g
+
+DROP TYPE IF EXISTS @PREFIX@_gid_label CASCADE
+\g
+
+DROP TYPE IF EXISTS @PREFIX@_road_segment CASCADE
+\g
+
+
+
 -----------
 -- TYPES --
 -----------
@@ -29,9 +80,6 @@
 --    will be constructed to represent the network of numbered routes
 --    that are to be rendered, and passed into @PREFIX@_analyze_markers
 --    to produce the data set that will drive the renderer.
-
-DROP TYPE IF EXISTS @PREFIX@_road_segment CASCADE;
-\g
 
 CREATE TYPE
 @PREFIX@_road_segment AS(
@@ -46,41 +94,97 @@ CREATE TYPE
 )
 \g
 
+-- Type: @PREFIX@_gid_label
+--
+--	A 'gid_label' is an ordered pair of a graphic file ID and
+--      a textual label to attach to it.
+
+CREATE TYPE
+@PREFIX@_gid_label AS (
+
+    gid INT,			-- Graphics file ID
+
+    label TEXT			-- Textual label
+)
+\g
+
+-- Type: @PREFIX_file_label
+--
+--	A 'file_label' is an ordered pair of a graphic file name and
+--	a textual label to attach to it
+
+CREATE TYPE
+@PREFIX@_file_label AS (
+
+    filename TEXT,		-- Graphics file name
+
+    label TEXT			-- Textual label
+)
+\g
+
 ---------------
 -- FUNCTIONS --
 ---------------
 
 -- Function: @PREFIX@_gids_to_files
 --
---	Converts an array of graphics ID's to an array of filenames
+--	Converts a table with graphics IDs and labels into a table
+--      with filenames and labels
 --
 -- Parameters:
---	gids - Array of graphics IDs.
+--	gids - Array of graphics ID/label pairs
 --
 -- Results:
---	Returns the filenames corresponding to the given ID's
+--	Returns an array with graphics IDs replaced with filenames
 --
 -- Since each graphics ID is a primary key in the 'osm_shield_graphics'
 -- table, this function need only join the array to the table,
 -- select the filenames and aggregate the result.
 
-DROP FUNCTION IF EXISTS @PREFIX@_gids_to_files(INT[])
-\g
-
-CREATE FUNCTION
-@PREFIX@_gids_to_files(gids INT[])
-RETURNS TEXT[]
+CREATE OR REPLACE FUNCTION
+@PREFIX@_gids_to_files(gid_labels @PREFIX@_gid_label[])
+RETURNS @PREFIX@_file_label[]
 LANGUAGE plpgsql
 AS $@PREFIX@_gids_to_files$
 BEGIN
   RETURN (
-    SELECT ARRAY_AGG(g.filename)
-    FROM (SELECT UNNEST(gids) AS gid) AS t
+    SELECT ARRAY_AGG((g.filename, (t.glabel).label)::@PREFIX@_file_label)
+    FROM (SELECT UNNEST(gid_labels) AS glabel) AS t
 	  JOIN osm_shield_graphics AS g
-	  ON g.id = t.gid
+	  ON g.id = (t.glabel).gid
   );
 END
 $@PREFIX@_gids_to_files$
+\g
+
+-- Function: @PREFIX@_make_repeat_key --
+--
+--	Makes a repeat key from an array of graphic-id/label pairs
+--
+-- Parameters:
+--	glabels - Array of gid/label pairs
+--
+-- Results:
+--	Returns a string that may serve as a repeat key
+
+CREATE OR REPLACE FUNCTION
+@PREFIX@_make_repeat_key(glabels @PREFIX@_gid_label[])
+RETURNS TEXT
+LANGUAGE plpgsql
+AS
+$@PREFIX@_make_repeat_key$
+BEGIN
+   RETURN (
+       WITH q1 AS (
+           SELECT x.glabel
+	   FROM (SELECT UNNEST(glabels) AS glabel) AS x
+       )
+       SELECT ARRAY_TO_STRING(ARRAY_AGG(
+           (q1.glabel).gid || '~' || (q1.glabel).label), '|')
+       FROM q1
+   );
+END
+$@PREFIX@_make_repeat_key$
 \g
 
 -- Function: @PREFIX@_analyze_markers --
@@ -123,10 +227,7 @@ $@PREFIX@_gids_to_files$
 --          FROM @PREFIX@_osm_roads
 --          WHERE ST_Intersects(!bbox!, way) ))
 
-DROP FUNCTION IF EXISTS @PREFIX@_analyze_markers(@PREFIX@_road_segment[], INT)
-\g
-
-CREATE FUNCTION
+CREATE OR REPLACE FUNCTION
 @PREFIX@_analyze_markers(segs @PREFIX@_road_segment[],
                          size_wanted INT)
 RETURNS TABLE(
@@ -160,11 +261,14 @@ BEGIN
 	--   + Finds any route relations in which any input way participates
 	--   + Downselects to 'road' routes
 	--   + Looks up graphic elements corresponding to the routes
-	--   + Packages tuples of (osm_id, way, network, ref, graphic_id)
+	--   + Packages tuples of (osm_id, way, highway,
+	--                         network, ref, graphic_id)
 	
         WITH q10 AS (
 	    SELECT ln.osm_id AS id,
 	           ln.way AS way,
+		   ln.highway AS highway,
+		   rt.route AS route,
 		   rt.network AS network,
 		   rt."ref" AS "ref",
 		   g.id AS gid
@@ -174,7 +278,7 @@ BEGIN
 	    JOIN @PREFIX@_shieldroute rt
 	      ON  rt.relid = sw.relid
 	      AND rt.route = 'road'
-	    JOIN osm_shield_graphics g
+	    LEFT JOIN osm_shield_graphics g
 	      ON  g.route = rt.route
               AND g.network = rt.network
 	      AND g."ref" = CASE
@@ -185,43 +289,69 @@ BEGIN
 	    ORDER BY network, "ref"
       ),
 
+      -- The graphic id in the above query may be NULL because the
+      -- network is unknown, or there is no graphic for the ref. Replace
+      -- the NULL graphic ID with an appropriate generic graphic ID, and
+      -- include a text label to fill in the blank box.
+
+      q15 AS (
+      	  SELECT q10.id, q10.way, q10.network, q10.ref,
+	         ( q10.gid, '' )::@PREFIX@_gid_label AS glabel
+	  FROM q10
+	  WHERE q10.gid IS NOT NULL
+	  UNION ALL
+	  SELECT q10.id, q10.way, q10.network, q10.ref, 
+	         ( g.id, q10.ref )::@PREFIX@_gid_label AS glabel
+	  FROM q10
+	  JOIN osm_shield_graphics g
+	  ON g.route = q10.route
+	  AND g.network = CASE
+	                   WHEN q10.highway IN ('motorway', 'trunk',
+			                        'primary', 'secondary')
+			   THEN 'generic-' || q10.highway
+			   ELSE 'generic-other'
+			   END
+	  AND g.ref = '1x' || LENGTH(q10.ref)
+	  WHERE q10.gid IS NULL
+      ),
+
       -- The next common table expression repackages the result of the
       -- first so that all graphic elements for a given way appear packaged
       -- together in a single row. The result is a table of
-      -- (osm_id, way, graphic_id[])
+      -- (osm_id, way, gid_label[])
 
       q20 AS (
-        SELECT q10.id AS xid,             -- OSM ID
-	       ST_Union(q10.way) AS way,  -- This union is always of a single
+        SELECT q15.id AS xid,             -- OSM ID
+	       ST_Union(q15.way) AS way,  -- This union is always of a single
 	                                  -- way with itself.
-	       ARRAY_AGG(q10.gid) AS gids -- Graphic ID's, aggregated
-	FROM q10
+	       ARRAY_AGG(q15.glabel) AS glabels -- Graphic ID's, aggregated
+	FROM q15
 	GROUP BY xid
       ),
 
       -- The next common table expression merges the ways corresponding
       -- to each set of route relations being processed. The result has
       -- one row per distinct set, consisting of an ordered pair of
-      -- the merged ways and the array of graphic IDs. The ST_LineMerge
+      -- the merged ways and the array of gids/labels. The ST_LineMerge
       -- call serves to coalesce ways that share a common set of routes
       -- into longer linestrings.
 
       q30 AS (
       	  SELECT ST_LineMerge(ST_Union(q20.way)) AS way,
-	         q20.gids AS gids
+	         q20.glabels AS glabels
 	  FROM q20
-	  GROUP BY gids
+	  GROUP BY glabels
       ),
 
-      -- Now that we've produced pairs of (way, graphic IDs) we want to
+      -- Now that we've produced pairs of (way, gids/labels) we want to
       -- bring in the graphic file names. They have not been carried up
       -- to this point, because the 'GROUP BY' in the step above would
       -- be inordinately slow if carried out over an arbitrary set of TEXT.
       
       q40 AS (
           SELECT q30.way as way,
-	  q30.gids AS gids,
-	  @PREFIX@_gids_to_files(gids) AS gfiles
+	  @PREFIX@_make_repeat_key(q30.glabels) AS repeat_key,
+	  @PREFIX@_gids_to_files(q30.glabels) AS flabels
 	  FROM q30
       )
 
@@ -231,23 +361,23 @@ BEGIN
       -- none of the graphics requires labeling.
       SELECT 
       	     q40.way AS way,
-	     ARRAY_TO_STRING(q40.gids, '|') AS repeat_key,
-             q40.gfiles[1] AS picture_1,
-	     '' AS label_1,
-             q40.gfiles[2] AS picture_2,
-	     '' AS label_2,
-             q40.gfiles[3] AS picture_3,
-	     '' AS label_3,
-             q40.gfiles[4] AS picture_4,
-	     '' AS label_4,
-             q40.gfiles[5] AS picture_5,
-	     '' AS label_5,
-             q40.gfiles[6] AS picture_6,
-	     '' AS label_6,
-             q40.gfiles[7] AS picture_7,
-	     '' AS label_7,
-             q40.gfiles[8] AS picture_8,
-	     '' AS label_8
+	     q40.repeat_key AS repeat_key,
+             q40.flabels[1].filename AS picture_1,
+	     q40.flabels[1].label    AS label_1,
+             q40.flabels[2].filename AS picture_2,
+	     q40.flabels[2].label    AS label_2,
+             q40.flabels[3].filename AS picture_3,
+	     q40.flabels[3].label    AS label_3,
+             q40.flabels[4].filename AS picture_4,
+	     q40.flabels[4].label    AS label_4,
+             q40.flabels[5].filename AS picture_5,
+	     q40.flabels[5].label    AS label_5,
+             q40.flabels[6].filename AS picture_6,
+	     q40.flabels[6].label    AS label_6,
+             q40.flabels[7].filename AS picture_7,
+	     q40.flabels[7].label    AS label_7,
+             q40.flabels[8].filename AS picture_8,
+	     q40.flabels[8].label    AS label_8
       FROM q40
     );	    
 END
@@ -271,10 +401,7 @@ $@PREFIX@_analyze_markers$
 --      and up to eight occurrences of a file name containing the marker
 --      graphic and a string (often empty) to layer atop the graphic.
 
-DROP FUNCTION IF EXISTS @PREFIX@_query_shields_line_all(GEOMETRY, INT) CASCADE
-\g
-
-CREATE FUNCTION
+CREATE OR REPLACE FUNCTION
 @PREFIX@_query_shields_line_all(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
     way GEOMETRY,		-- Geometry of a resulting linestring
@@ -338,9 +465,6 @@ $@PREFIX@_query_shields_line_all$
 --      set it belongs to (to eliminate markers that are too close together)
 --      and up to eight occurrences of a file name containing the marker
 --      graphic and a string (often empty) to layer atop the graphic.
-
-DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_all(GEOMETRY, INT) CASCADE
-\g
 
 CREATE FUNCTION
 @PREFIX@_query_shields_roads_all(bbox GEOMETRY, size_wanted INT)
@@ -410,9 +534,6 @@ $@PREFIX@_query_shields_roads_all$
 -- A highway is considered to be 'major' if it is a motorway, trunk
 -- or primary way.
 
-DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_major(GEOMETRY, INT) CASCADE
-\g
-
 CREATE FUNCTION
 @PREFIX@_query_shields_roads_major(bbox GEOMETRY, size_wanted INT)
 RETURNS TABLE(
@@ -478,9 +599,6 @@ $@PREFIX@_query_shields_roads_major$
 --      set it belongs to (to eliminate markers that are too close together)
 --      and up to eight occurrences of a file name containing the marker
 --      graphic and a string (often empty) to layer atop the graphic.
-
-DROP FUNCTION IF EXISTS @PREFIX@_query_shields_roads_motorway(GEOMETRY, INT) CASCADE
-\g
 
 CREATE FUNCTION
 @PREFIX@_query_shields_roads_motorway(bbox GEOMETRY, size_wanted INT)

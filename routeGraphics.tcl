@@ -2398,6 +2398,53 @@ namespace eval routeGraphics {
 
 routeGraphics::launchInkscape
 
+# Begin by making a set of generic shields for refs that belong
+# to unknown or unrecognized networks or cannot be rendered in their
+# networks
+
+set f [open [file join $here generic-shield.svg.in] r]
+set template [read $f]
+close $f
+
+puts stderr "Make generic shields"
+
+file mkdir [file join $tmpDir generic]
+file mkdir [file join $pngDir generic]
+dict for {highway colour} $markerColours {
+    scan $colour "#%02x%02x%02x" r g b
+    set stroke [format "#%02x%02x%02x" \
+		    [expr {$r/2}] [expr {$g/2}] [expr {$b/2}]]
+    for {set cwidth 1} {$cwidth <= 10} {incr cwidth} {
+	set rectwidth [expr {$charWidth * $cwidth + ($charWidth/2)}]
+	set canvwidth [expr {$rectwidth + 2}]
+	for {set cheight 1} {$cheight <= 4} {incr cheight} {
+	    puts stderr  "${cheight}x${cwidth}..."
+	    set rectheight [expr {$charHeight*$cheight + $charHeight - 2}]
+	    set canvheight [expr {$rectheight + 2}]
+	    set froot $highway-${cheight}x${cwidth}
+	    set svgname [file join $tmpDir generic $froot.svg]
+	    set pngname [file join $pngDir generic $froot.png]
+	    puts stderr "open $svgname"
+	    set f [open $svgname w]
+	    puts $f [string map [list \
+				     @CANVWIDTH@ $canvwidth \
+				     @CANVHEIGHT@ $canvheight \
+				     @RECTWIDTH@ $rectwidth \
+				     @RECTHEIGHT@ $rectheight \
+				     @FILLCOLOUR@ $colour \
+				     @STROKECOLOUR@ $stroke]       $template]
+	    close $f
+	    puts stderr "wrote $svgname"
+	    routeGraphics::runInkscape $svgname $canvheight $pngname
+	    routeGraphics::waitForInkscape
+	    $routeGraphics::makeshield allrows \
+		[dict create network generic-$highway ref ${cheight}x${cwidth} \
+		     size 0 filename $pngname]
+	}
+    }
+}
+
+
 set seenNetwork {}
 set need {}
 set processedRoute {}

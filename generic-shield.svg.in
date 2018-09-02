@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="@CANVWIDTH@" height="@CANVHEIGHT@"
+     viewBox="0 0 @CANVWIDTH@ @CANVHEIGHT@"
+     overflow="visible"
+     style="overflow:visible">
+
+  <rect x="1" y="1"
+	width="@RECTWIDTH@" height="@RECTHEIGHT@"
+	rx="3" ry="3"
+	fill="@FILLCOLOUR@" stroke="@STROKECOLOUR@"
+	stroke-width="1"/>
+
+</svg>

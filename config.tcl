@@ -21,3 +21,20 @@ set tmpDir /tmp/routeGraphics[pid]
 # Image sizes required at rendering, in pixels
 
 set sizes {20 24 28 100}
+
+# Colours of generic markers for different road classes
+
+set markerColours {
+    motorway	#8899ee
+    trunk	#ff8888
+    primary	#ffcc88
+    secondary	#ffff88
+    other	#ffffff
+}
+
+# Height and width of an average character in the font to be used
+# on highway shields
+
+set charHeight 11
+set charWidth 8
+
