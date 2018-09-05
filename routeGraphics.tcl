@@ -2293,14 +2293,22 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	{^US:WI:(Bayfield|Brown|Buffalo|Calumet|Columbia)} -
-	{^US:WI:(Dane|Dodge|Door|Dunn|Eau_Claire)$} -
-	{^US:WI:(Fond_du_Lac|Fond du Lac)$} -
-	{^US:WI:(Grant|Green_Lake|Iron|Jefferson|Langlade|Lincoln)$} -
-	{^US:WI:(Marathon|Marquette|Menominee|Milwaukee)$} -
-	{^US:WI:(Oconto|Outagamie|Ozaukee|Pepin|Portage)$} -
-	{^US:WI:(Rock|Saint Croix|Sauk|Shawano|Sheboygan|Vilas)$} -
-	{^US:WI:(Walworth|Washington|Waukesha|Waupaca|Waushara|Winnebago)$} {
+	{^US:WI:(Adams|Ashland|Barron)$} -
+	{^US:WI:(Bayfield|Brown|Buffalo|Burnett|Calumet)} -
+	{^US:WI:(Chippewa|Clark|Columbia|Crawford)} -
+	{^US:WI:(Dane|Dodge|Door|Douglas|Dunn|Eau_Claire)$} -
+	{^US:WI:(Florence|Fond_du_Lac|Fond du Lac|Forest)$} -
+	{^US:WI:(Grant|Green|Green_Lake|Iowa|Iron)$} -
+	{^US:WI:(Jackson|Jefferson|Juneau|Kenosha|Kewaunee)$} -
+	{^US:WI:(Lafayette|Langlade|Lincoln)$} -
+	{^US:WI:(Manitowoc|Marathon|Marinette|Marquette|Menominee|Milwaukee)$} -
+	{^US:WI:(Monroe|Oconto|Oneida|Outagamie|Ozaukee)$} -
+	{^US:WI:(Pepin|Pierce|Polk|Portage|Price)$} -
+	{^US:WI:(Racine|Richland|Rock|Rusk)$} -
+	{^US:WI:(Saint Croix|Sauk|Sawyer|Shawano|Sheboygan)$} -
+	{^US:WI:(Taylor|Trempealeau|Vernon|Vilas)$} -
+	{^US:WI:(Walworth|Washburn|Washington|Waukesha|Waupaca)$} -
+	{^US:WI:(Waushara|Winnebago|Wood)$} {
 
 	    # Wisconsin county road shield is a simple square
 
