@@ -2408,9 +2408,15 @@ close $f
 
 puts stderr "Make generic shields"
 
+set clean_marker [db prepare {
+    DELETE FROM osm_shield_graphics
+    WHERE NETWORK = 'generic-' || :highway
+}]
+
 file mkdir [file join $tmpDir generic]
 file mkdir [file join $pngDir generic]
 dict for {highway colour} $markerColours {
+    $clean_marker allrows [list highway $highway]
     scan $colour "#%02x%02x%02x" r g b
     set stroke [format "#%02x%02x%02x" \
 		    [expr {$r/2}] [expr {$g/2}] [expr {$b/2}]]
@@ -2438,7 +2444,7 @@ dict for {highway colour} $markerColours {
 	    routeGraphics::runInkscape $svgname $canvheight $pngname
 	    routeGraphics::waitForInkscape
 	    $routeGraphics::makeshield allrows \
-		[dict create network generic-$highway ref ${cheight}x${cwidth} \
+      		[dict create network generic-$highway ref ${cheight}x${cwidth} \
 		     size 0 filename $pngname]
 	}
     }
