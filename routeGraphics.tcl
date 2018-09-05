@@ -2296,7 +2296,7 @@ proc routeGraphics::make_pngs {network ref} {
 	{^US:WI:(Adams|Ashland|Barron)$} -
 	{^US:WI:(Bayfield|Brown|Buffalo|Burnett|Calumet)} -
 	{^US:WI:(Chippewa|Clark|Columbia|Crawford)} -
-	{^US:WI:(Dane|Dodge|Door|Douglas|Dunn|Eau_Claire)$} -
+	{^US:WI:(Dane|Dodge|Door|Douglas|Dunn|Eau[_ ]Claire)$} -
 	{^US:WI:(Florence|Fond_du_Lac|Fond du Lac|Forest)$} -
 	{^US:WI:(Grant|Green|Green_Lake|Iowa|Iron)$} -
 	{^US:WI:(Jackson|Jefferson|Juneau|Kenosha|Kewaunee)$} -
