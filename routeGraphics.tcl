@@ -427,7 +427,7 @@ namespace eval routeGraphics {
     variable bannerFilesCR {
 	ALTERNATE	banner:cr:alt.svg
 	SPUR		banner:cr:spur.svg
-	TRUCK		banner:cf:truck.svg
+	TRUCK		banner:cr:truck.svg
     }
 }
 
