@@ -2325,7 +2325,8 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
-	{^US:WV:(Berkeley|Carbon|Hancock|Marion|Mineral)$} -
+	{^US:WV:(Berkeley|Carbon|Hancock)$} -
+	{^US:WV:(Marion|Mason|McDowell|Mercer|Mineral)$} -
 	{^US:WV:(Monongalia|Preston|Tucker|Wood)$} {
 
 	    # West Virginia county roads have circular shields that may be
