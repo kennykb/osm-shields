@@ -632,7 +632,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    
 	}
 
-	^CA:AB:trunk$ {
+	^CA:AB:primary$ {
 	    set mod {}
 	    set pat [findGenericTemplate CA:AB $ref]
 	    set num $ref
@@ -648,7 +648,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	^CA:AB:primary$ {
+	^CA:AB:secondary$ {
 	    set mod {}
 	    set pat [findGenericTemplate CA:AB_local $ref]
 	    set num $ref
@@ -663,7 +663,7 @@ proc routeGraphics::make_pngs {network ref} {
 		stackModifiers $network $rootnetwork $ref $modifiers
 	    }
 	}
-
+	
 	^CA:BC$ -
 	^CA:BC:primary$ -
 	^CA:BC:trunk$ {
@@ -745,27 +745,45 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	^CA:NB$ {
-	    if {$ref in {2 16}} {
-		set pat CA:TCH
-	    } elseif {$ref < 100} {
-		set pat CA:NB_green
-	    } elseif {$ref < 200} {
-		set pat CA:NB_blue
-	    } else {
-		set pat CA:NB_black
-	    }
-	    set pat [findGenericTemplate $pat $ref]
+	^CA:NB:primary$ {
+	    set pat [findGenericTemplate CA:NB_green $ref]
+	    set scale 1.0
 	    if {$pat ne ""} {
 		makeSVG $rootnetwork $ref $pat {num} $ref
-		makePNGs $rootnetwork $ref
+		makePNGs $rootnetwork $ref $scale
 		set ok 1
 	    }
 	    if {$ok} {
 		stackModifiers $network $rootnetwork $ref $modifiers
 	    }
 	}
-
+	
+	^CA:NB:secondary$ {
+	    set pat [findGenericTemplate CA:NB_blue $ref]
+	    set scale 1.0
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num} $ref
+		makePNGs $rootnetwork $ref $scale
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+	
+	^CA:NB:tertiary$ {
+	    set pat [findGenericTemplate CA:NB_black $ref]
+	    set scale 1.0
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat {num} $ref
+		makePNGs $rootnetwork $ref $scale
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+	
 	^CA:NL$ -
 	^CA:NL:R$ {
 	    if {$ref in {1}} {
@@ -974,7 +992,6 @@ proc routeGraphics::make_pngs {network ref} {
 	    variable CA_ON_county_shieldcolors
 
 	    lassign $nwparts - county
-	    puts "Make shield for county: $county"
 
 	    # County roads in ontario
 
@@ -994,7 +1011,7 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	^CA:PEI$ {
+	^CA:PE$ {
 	    if {$ref eq {1}} {
 		set pat [findGenericTemplate CA:TCH $ref]
 		set num $ref
@@ -1040,26 +1057,12 @@ proc routeGraphics::make_pngs {network ref} {
 	    stackModifiers $network $rootnetwork $ref $modifiers
 	}
 
-	^CA:SK$ {
-	    set b {}
-	    if {$ref in {1 16 16A 16B}} {
-		set b CA:TCH
-		set scale 1.3
-	    } elseif {$ref < 400} {
-		set b CA:SK:primary
-		set scale 1.0
-	    } elseif {$ref >= 600 && $ref < 800} {
-		set b CA:SK:rural
-		set scale 1.6
-	    } elseif {$ref >= 900 && $ref < 1000} {
-		set b CA:SK:primary
-		set scale 1.0
-	    }
-	    if {$b != {}} {
-		set pat [findGenericTemplate $b $ref]
-	    }
+	^CA:SK:primary$ -
+	^CA:SK:tertiary$ {
+	    set pat [findGenericTemplate CA:SK:primary $ref]
 	    if {$pat ne ""} {
-		makeSVG $rootnetwork $ref $pat {num suf} [list $ref {}]
+		makeSVG $rootnetwork $ref $pat \
+		    {num} [list $ref]
 		makePNGs $rootnetwork $ref 1.0
 		set ok 1
 	    }
@@ -1068,6 +1071,19 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
+	^CA:SK:secondary$ {
+	    set pat [findGenericTemplate CA:SK:rural $ref]
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {num} [list $ref]
+		makePNGs $rootnetwork $ref 1.6
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	}
+	
 	^CA:YT$ {
 	    if {$ref in {1 2 3 4 5 6 7 8 9 10 11 37}} {
 		set pat CA:YT:$ref.svg
@@ -1107,6 +1123,7 @@ proc routeGraphics::make_pngs {network ref} {
 
 	^MEX$ -
 	^MX$ -
+	^MX:MEX$ -
 	^MX:MX$ {
 	    set scale 1.375
 	    set pat [findGenericTemplate MX:MX $ref]
@@ -1997,6 +2014,7 @@ proc routeGraphics::make_pngs {network ref} {
 	{^US:NY:(Washington)$} -
 	{^US:NY:(Westchester)$} -
 	{^US:NY:(Yates)$} -
+	{^US:NY:CR:Suffolk$} -
 	{^US:OH:(COL|JEF|LUC|MAH|OTT|SEN|STA|SUM|TUS)$} {
 
 	    # MUTCD county road shield
@@ -2022,6 +2040,8 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 
 	}
+
+	{^US:ID:(Boundary)$} -
 
 	{^US:MN:(Aitkin|Alger|Anoka|Becker|Beltrami|Benton)$} -
 	{^US:MN:(Big Stone|Blue Earth|Brown|Carlton|Carver)$} -
@@ -2325,19 +2345,25 @@ proc routeGraphics::make_pngs {network ref} {
 
 	}
 
-	{^US:WV:(Berkeley|Carbon|Hancock)$} -
-	{^US:WV:(Marion|Mason|McDowell|Mercer|Mineral)$} -
-	{^US:WV:(Monongalia|Preston|Tucker|Wood)$} {
+	{^US:WV:(Barbour|Berkeley|Braxton|Carbon|Calhoun|Clay|Doddridge)$} -
+	{^US:WV:(Fairfield|Gilmer|Greenbrier|Hancock|Harrison|Lewis)$} -
+	{^US:WV:(Marion|Mason|McDowell|Mercer|Mineral|Monroe)$} -
+	{^US:WV:(Monongalia|Nicholas|Pendleton)$} -
+	{^US:WV:(Pheasants|Pleasants|Pocahontas|Preston)$} -
+	{^US:WV:(Randolph|Ritchie|Summers|Tucker|Tyler|Upshur|Webster|Wood)$} {
 
 	    # West Virginia county roads have circular shields that may be
-	    # divided. 
+	    # divided.
+
+	    # In some counties, mappers have left a spurious 'CR ' on the
+	    # ref. Get rid of it.
 
 	    set mod [string toupper [lindex $nwparts 1]]
-	    if {[regexp {(.*)/(.*)} $ref -> num suf]} {
+	    if {[regexp {(?:CR )?(.*)/(.*)} $ref -> num suf]} {
 		set pat circle:fraction.svg
 	    } else {
-		set pat [findGenericTemplate circle $ref]
-		set num $ref
+		regsub "^CR " $ref {} num
+		set pat [findGenericTemplate circle $num]
 		set suf {}
 	    }
 	    if {$pat ne ""} {
@@ -2364,7 +2390,12 @@ proc routeGraphics::make_pngs {network ref} {
 	}
 
 	{^USFS()$} -
+	{^US:NF$} -
 	{^US:NFSR:(.*):NF[HR]} {
+
+	    # Some mappers have left 'NF' on the route number. Remove it.
+	    
+	    regsub {^NF } $ref {} ref
 	    # Don't try to fit the name of the forest on the shield!
 	    set pat [findGenericTemplate US:NFSR $ref]
 	    if {$pat ne ""} {
