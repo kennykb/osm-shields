@@ -117,7 +117,7 @@ WHERE ("role" is null
 \echo Create indices on @PREFIX@_shieldway
 
 ALTER TABLE @PREFIX@_shieldway
-ADD CONSTRAINT pk_@PREFIX@_shieldroute
+ADD CONSTRAINT pk_@PREFIX@_shieldway
 PRIMARY KEY (relid, idx)
 
 \g
