@@ -1,0 +1,66 @@
+-- shieldindices.sql.in
+
+-- The code in this file creates all the needed indices on the
+-- 'shieldroute' and 'shieldway' tables, deleting any no-longer-needed
+-- indices created in either 'osm2pgsql' or 'shieldtables.sql.in'.
+
+
+
+-- The initial database load from the 'flex' backend will have created
+-- indices on the 'shieldroute' and 'shieldway' tables that are not
+-- required any more, so get rid of them.
+
+\echo 'Discard unnecessary indices on @PREFIX@_shieldroute'
+\echo 'Errors in this step may be ignored'
+DROP INDEX @PREFIX@_shieldroute_relid_idx;
+\echo 'Discard unnecessary indices in @PREFIX_@shieldway'
+\echo 'Errors in this step may be ignored'
+DROP INDEX @PREFIX@_shieldway_wayid_idx;
+DROP INDEX @PREFIX@_shieldway_wayid_idx1;
+
+
+-- Add a primary key to 'shieldroute' - the relation ID.
+
+\echo 'Add primary key to @PREFIX@_shieldroute'
+ALTER TABLE @PREFIX@_shieldroute
+ADD CONSTRAINT pk_@PREFIX@_shieldroute
+PRIMARY KEY (relid);
+
+-- Add an index to 'shieldroute' to allow for rapid searching by change
+-- status, network and ref.
+
+\echo 'Index @PREFIX@_shieldroute on the "changed" flag'
+CREATE INDEX @PREFIX@_shieldroute_changed_idx
+ON @PREFIX@_shieldroute(changed, network, ref);
+
+-- Add an index to 'shieldway' - the relation ID and ordinal position
+-- of the way within the relation.
+
+\echo 'Add a primary key to @PREFIX@_shieldway'
+ALTER TABLE @PREFIX@_shieldway
+ADD CONSTRAINT @PREFIX@_shieldway_pk
+PRIMARY KEY (relid, idx);
+
+-- Add an index to 'shieldway' to allow rapid lookup of route relations
+-- in which the way participates.
+
+\echo 'Index @PREFIX@_shieldway by way'
+CREATE INDEX @PREFIX@_shieldway_wayidx
+ON @PREFIX@_shieldway(wayid, relid, idx);
+
+-- Add a reference constraint to 'shieldway' so that the ways go away
+-- when the relation does.
+
+\echo 'Add foreign key to @PREFIX@_shieldway referencing @PREFIX@_shieldroute'
+-- ALTER TABLE @PREFIX@_shieldway
+-- ADD CONSTRAINT @PREFIX@_shieldway_fk_shieldroute
+-- FOREIGN KEY (relid)
+-- REFERENCES @PREFIX@_shieldroute(relid)
+-- ON DELETE CASCADE;
+
+
+-- Finally, analyze the two tables to get accurate index statistics
+
+\echo 'Analyze the new indices on @PREFIX@_shieldroute and @PREFIX@_shieldway'
+VACUUM ANALYZE @PREFIX@_shieldroute;
+VACUUM ANALYZE @PREFIX@_shieldway;

@@ -1,10 +1,26 @@
 #!/usr/bin/env tclsh8.6
 
-set here [file normalize [file dirname [info script]]]
-
 # Configuration
 
+set here [file normalize [file dirname [info script]]]
 source [file join $here config.tcl]
+
+set init 0
+for {set i 0} {$i < [llength $argv]} {incr i} {
+    set key [lindex $argv $i]
+    switch -exact -- $key {
+	--init {
+	    set init 1
+	}
+	--prefix - -p {
+	    incr i
+	    if {$i >= [llength $argv]} {
+		error "--prefix requires a value"
+	    }
+	    set prefix [lindex $argv $i]
+	}
+    }
+}
 
 set templateDir [file join $here templates]
 
@@ -2438,58 +2454,57 @@ namespace eval routeGraphics {
 
 routeGraphics::launchInkscape
 
-# Begin by making a set of generic shields for refs that belong
-# to unknown or unrecognized networks or cannot be rendered in their
-# networks
+if {$init} {
+    # Begin by making a set of generic shields for refs that belong
+    # to unknown or unrecognized networks or cannot be rendered in their
+    # networks
 
-set f [open [file join $here generic-shield.svg.in] r]
-set template [read $f]
-close $f
+    set f [open [file join $here generic-shield.svg.in] r]
+    set template [read $f]
+    close $f
+    
+    set clean_marker [db prepare {
+	DELETE FROM osm_shield_graphics
+	WHERE NETWORK = 'generic-' || :highway
+    }]
 
-puts stderr "Make generic shields"
-
-set clean_marker [db prepare {
-    DELETE FROM osm_shield_graphics
-    WHERE NETWORK = 'generic-' || :highway
-}]
-
-file mkdir [file join $tmpDir generic]
-file mkdir [file join $pngDir generic]
-dict for {highway colour} $markerColours {
-    $clean_marker allrows [list highway $highway]
-    scan $colour "#%02x%02x%02x" r g b
-    set stroke [format "#%02x%02x%02x" \
-		    [expr {$r/2}] [expr {$g/2}] [expr {$b/2}]]
-    for {set cwidth 1} {$cwidth <= 10} {incr cwidth} {
-	set rectwidth [expr {$charWidth * $cwidth + 6}]
-	set canvwidth [expr {$rectwidth + 2}]
-	for {set cheight 1} {$cheight <= 4} {incr cheight} {
-	    puts stderr  "${cheight}x${cwidth}..."
-	    set rectheight [expr {$charHeight*$cheight + 4}]
-	    set canvheight [expr {$rectheight + 2}]
-	    set froot $highway-${cheight}x${cwidth}
-	    set svgname [file join $tmpDir generic $froot.svg]
-	    set pngname [file join $pngDir generic $froot.png]
-	    puts stderr "open $svgname"
-	    set f [open $svgname w]
-	    puts $f [string map [list \
-				     @CANVWIDTH@ $canvwidth \
-				     @CANVHEIGHT@ $canvheight \
-				     @RECTWIDTH@ $rectwidth \
-				     @RECTHEIGHT@ $rectheight \
-				     @FILLCOLOUR@ $colour \
-				     @STROKECOLOUR@ $stroke]       $template]
-	    close $f
-	    puts stderr "wrote $svgname"
-	    routeGraphics::runInkscape $svgname $canvheight $pngname
-	    routeGraphics::waitForInkscape
-	    $routeGraphics::makeshield allrows \
-      		[dict create network generic-$highway ref ${cheight}x${cwidth} \
-		     size 0 filename $pngname]
+    file mkdir [file join $tmpDir generic]
+    file mkdir [file join $pngDir generic]
+    dict for {highway colour} $markerColours {
+	$clean_marker allrows [list highway $highway]
+	scan $colour "#%02x%02x%02x" r g b
+	set stroke [format "#%02x%02x%02x" \
+			[expr {$r/2}] [expr {$g/2}] [expr {$b/2}]]
+	for {set cwidth 1} {$cwidth <= 10} {incr cwidth} {
+	    set rectwidth [expr {$charWidth * $cwidth + 6}]
+	    set canvwidth [expr {$rectwidth + 2}]
+	    for {set cheight 1} {$cheight <= 4} {incr cheight} {
+		set rectheight [expr {$charHeight*$cheight + 4}]
+		set canvheight [expr {$rectheight + 2}]
+		set froot $highway-${cheight}x${cwidth}
+		set svgname [file join $tmpDir generic $froot.svg]
+		set pngname [file join $pngDir generic $froot.png]
+		set f [open $svgname w]
+		puts $f [string map [list \
+					 @CANVWIDTH@ $canvwidth \
+					 @CANVHEIGHT@ $canvheight \
+					 @RECTWIDTH@ $rectwidth \
+					 @RECTHEIGHT@ $rectheight \
+					 @FILLCOLOUR@ $colour \
+					 @STROKECOLOUR@ $stroke]   $template]
+		close $f
+		routeGraphics::runInkscape $svgname $canvheight $pngname
+		routeGraphics::waitForInkscape
+		$routeGraphics::makeshield allrows \
+		    [dict create network generic-$highway ref \
+			 ${cheight}x${cwidth} \
+			 size 0 filename $pngname]
+	    }
 	}
     }
 }
 
+puts "Find changed routes in ${prefix}_shieldroute"
 
 set seenNetwork {}
 set need {}
@@ -2499,7 +2514,8 @@ set n 0
 db foreach row [string map [list @PREFIX@ $prefix] {
     SELECT DISTINCT s.route, s.network, s.ref
     FROM @PREFIX@_shieldroute s
-    WHERE s.route = 'road'
+    WHERE s.changed
+    AND s.route = 'road'
     AND s.network IS NOT NULL
     AND NOT EXISTS(SELECT 1
 		   FROM osm_shield_graphics g
@@ -2542,6 +2558,12 @@ foreach {nw count} [lsort -stride 2 -integer -index 1 -decreasing \
     # How do I love thee? Let me count the ways."
     puts "$nw: $count ways"
 }
+
+db allrows [string map [list @PREFIX@ $prefix] {
+    UPDATE @PREFIX@_shieldroute
+    SET changed = FALSE
+    WHERE changed
+}]
 
 file delete -force $tmpDir
 
