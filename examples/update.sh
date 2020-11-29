@@ -38,17 +38,17 @@ LOCKFILE=/var/lock/.osm_shields.${PREFIX}.lock
 	  -P "$PREFIX" \
 	  -p "$POLYFILENAME" \
 	  - - \
-    | tee changes.xml \
-    | osm2pgsql --append \
-		--prefix="$PREFIX" \
-		--slim \
-		--cache=$CACHESIZE \
-		--database="$DATABASE" \
-		--number-processes $PROCESSES \
-		--input-reader=xml \
-		--output=flex \
-		--style=compatshields.lua \
-		-
+	| tee changes.xml \
+	| osm2pgsql --append \
+		    --prefix="$PREFIX" \
+		    --slim \
+		    --cache=$CACHESIZE \
+		    --database="$DATABASE" \
+		    --number-processes $PROCESSES \
+		    --input-reader=xml \
+		    --output=flex \
+		    --style=compatshields.lua \
+		    -
 
     # Make any needed updates on the shield graphics
 
