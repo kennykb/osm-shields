@@ -2463,8 +2463,6 @@ if {$init} {
     set template [read $f]
     close $f
     
-    puts stderr "Make generic shields"
-    
     set clean_marker [db prepare {
 	DELETE FROM osm_shield_graphics
 	WHERE NETWORK = 'generic-' || :highway
@@ -2481,13 +2479,11 @@ if {$init} {
 	    set rectwidth [expr {$charWidth * $cwidth + 6}]
 	    set canvwidth [expr {$rectwidth + 2}]
 	    for {set cheight 1} {$cheight <= 4} {incr cheight} {
-		puts stderr  "${cheight}x${cwidth}..."
 		set rectheight [expr {$charHeight*$cheight + 4}]
 		set canvheight [expr {$rectheight + 2}]
 		set froot $highway-${cheight}x${cwidth}
 		set svgname [file join $tmpDir generic $froot.svg]
 		set pngname [file join $pngDir generic $froot.png]
-		puts stderr "open $svgname"
 		set f [open $svgname w]
 		puts $f [string map [list \
 					 @CANVWIDTH@ $canvwidth \
@@ -2497,7 +2493,6 @@ if {$init} {
 					 @FILLCOLOUR@ $colour \
 					 @STROKECOLOUR@ $stroke]   $template]
 		close $f
-		puts stderr "wrote $svgname"
 		routeGraphics::runInkscape $svgname $canvheight $pngname
 		routeGraphics::waitForInkscape
 		$routeGraphics::makeshield allrows \

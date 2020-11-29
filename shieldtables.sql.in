@@ -24,12 +24,14 @@ DROP TABLE @PREFIX@_shieldroute CASCADE
 \g
 
 CREATE TABLE @PREFIX@_shieldroute(
-    relid    BIGINT PRIMARY KEY,   -- Relation ID
+    relid    BIGINT,		   -- Relation ID
     route    TEXT,                 -- route=*
     network  TEXT,                 -- network=* tag
-    "ref"    TEXT                  -- ref=* tag
+    "ref"    TEXT,                 -- ref=* tag
+    changed  BOOLEAN               -- Flag that the route has changed.
 )
 \g
+
 
 ------------------------------------------------------------------------
 --
@@ -55,11 +57,12 @@ CREATE TABLE @PREFIX@_shieldway(
 
 \echo Populate @PREFIX@_shieldroute with route relations
 
-INSERT INTO @PREFIX@_shieldroute(relid, route, network, "ref")
+INSERT INTO @PREFIX@_shieldroute(relid, route, network, "ref", changed)
 SELECT r.id AS relid,
        osm_get_tag_value(r.tags, 'route') AS route,
        osm_get_tag_value(r.tags, 'network') AS network,
-       osm_get_tag_value(r.tags, 'ref') AS "ref"
+       osm_get_tag_value(r.tags, 'ref') AS "ref",
+       TRUE
 FROM @PREFIX@_rels r
 WHERE osm_get_tag_value(r.tags, 'type') = 'route'
 AND osm_get_tag_value(r.tags, 'route') in
@@ -69,6 +72,10 @@ AND (osm_get_tag_value(r.tags, 'ref') IS NOT NULL
      OR osm_get_tag_value(r.tags, 'unsigned_ref') IS NULL)
 \g
 
+\echo 'Create temporary index on @PREFIX@_shieldroute'
+CREATE INDEX @PREFIX@_shieldroute_relid_idx
+ON @PREFIX@_shieldroute(relid);
+       
 -- Now, populate shieldway with the route members. Begin by enumerating the
 -- routes.
 
@@ -108,27 +115,5 @@ WHERE ("role" is null
            AND "role" NOT LIKE '%stop%'
            AND "role" NOT LIKE '%platform%'
            AND "role" NOT LIKE '%guidepost%'))
-
-\g
-
--- Now that the 'shieldway' table is constructed, make its indices
--- all in one go.
-
-\echo Create indices on @PREFIX@_shieldway
-
-ALTER TABLE @PREFIX@_shieldway
-ADD CONSTRAINT pk_@PREFIX@_shieldway
-PRIMARY KEY (relid, idx)
-
-\g
-
-ALTER TABLE @PREFIX@_shieldway
-ADD CONSTRAINT fk_@PREFIX@_shieldway_route
-FOREIGN KEY(relid) REFERENCES @PREFIX@_shieldroute(relid)
-ON DELETE CASCADE
-\g
-
-CREATE INDEX idx_@PREFIX@_shieldway_way
-ON @PREFIX@_shieldway(wayid, relid, idx)
 
 \g

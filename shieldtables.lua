@@ -61,26 +61,19 @@ end
 
 function ShieldTablesMethods:process_way(object)
 
-    if self.osm2pgsql.stage == 2 and object.tags.highway then
+    if object.tags.highway then
         local d = self.w2routes[object.id]
         if d then
 	    for relid, e in pairs(d) do
-	        for _, row in ipairs(e) do
+	        for idx, row in pairs(e) do
 		    self.shieldway_tbl:add_row({
 		        relid = relid,
-		        idx = row.idx,
-		        wayid = object.id,
+		        idx = idx,
 		        role = row.role,
 		    })
 	        end
 	    end
 	end
-	
-	-- It is tempting to return all the way to the caller in
-	-- osm2pgsql at this point, but osm2pgsql will have
-	-- deleted from the database any rows that are scheduled for 
-	-- reprocessing. They need to be reinserted, so continue recreating
-	-- the identical rows that will have existed in phase 1.
     end
 end
 
@@ -104,25 +97,13 @@ function ShieldTablesMethods:process_relation(object)
 	    changed = true,
 	})
 
-	-- If this is the second time that we have seen a relation,
-	-- then the first one was a delete, and its ways need to be
-	-- deleted from r2ways and w2routes
-
-	ways = self.r2ways[object.id]
-	if ways then
-	    for w, _ in pairs(ways) do
-	    	self.w2routes[w][object.id] = nil
-	    end
-	    self.r2ways[object.id] = nil
-	end
-
         for idx, member in ipairs(object.members) do
 
 	    -- go through the route members for ones with appropriate roles
 
             if self:is_route_member(member) then
 
-		-- record a route member in self.w2routes and self.r2ways
+		-- record a route member in self.w2routes
 
 		local d = self.w2routes[member.ref]
 		if not d then
@@ -132,19 +113,9 @@ function ShieldTablesMethods:process_relation(object)
 		if not d2 then
 		    d2 = {}
 		end
-                d2[#d2+1] = {
-                    idx = idx,
-                    role = member.role,
-                }
+                d2[idx] = member.role
 		d[object.id] = d2
 		self.w2routes[member.ref] = d
-
-		d = self.r2ways[object.id]
-		if not d then
-		    d = {}
-		end
-		d[member.ref] = true
-		self.r2ways[object.id] = d
 
             end
         end
@@ -194,14 +165,14 @@ shieldtables.new = function(prefix)
 	--               of graphichs files for shields.
 
         shieldroute_tbl = osm2pgsql.define_table{
-	    name = prefix .. '_shieldroute',
+	    name =  prefix .. '_shieldroute',
 	    ids = { type = 'relation', id_column = 'relid' },
 	    columns = {
-		{ column = 'network', type = 'text' },
 	        { column = 'route', type = 'text' },
+		{ column = 'network', type = 'text' },
 		{ column = 'ref', type = 'text' },
 		{ column = 'changed', type = 'boolean' },
-	    }
+	    },
 	},
 
 	-- The 'shieldway' table has one row per way that is a member of
@@ -218,20 +189,14 @@ shieldtables.new = function(prefix)
 	        { column = 'relid', type = 'int8' },
 		{ column = 'idx', type = 'int4' },
 	        { column = 'role', type = 'text'},
-	    }
+	    },
 	},
 
-	-- w2routes[wayID][relationID] consists of a list of pairs,
-	-- (idx = N, role = R)
-	-- if the way identified by wayID is a member of the route relation
-	-- relationID, at index N, with role R
+	-- w2routes[wayID][relationID][idx] contains the role
+	-- for a way 'wayID' appearing in relation 'relationID'
+	-- at position 'idx'
 
 	w2routes = {},
-
-	-- r2ways[relationID][wayID] is true if the way identified by
-	-- wayID is a member of the relation identified by relationID.
-
-	r2ways = {},
 
     }
 

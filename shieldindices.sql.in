@@ -45,18 +45,18 @@ PRIMARY KEY (relid, idx);
 -- in which the way participates.
 
 \echo 'Index @PREFIX@_shieldway by way'
-CREATE INDEX @PREFIX@_shieldway_way_idx
+CREATE INDEX @PREFIX@_shieldway_wayidx
 ON @PREFIX@_shieldway(wayid, relid, idx);
 
 -- Add a reference constraint to 'shieldway' so that the ways go away
 -- when the relation does.
 
 \echo 'Add foreign key to @PREFIX@_shieldway referencing @PREFIX@_shieldroute'
-ALTER TABLE @PREFIX@_shieldway
-ADD CONSTRAINT @PREFIX@_shieldway_fk_shieldroute
-FOREIGN KEY (relid)
-REFERENCES @PREFIX@_shieldroute(relid)
-ON DELETE CASCADE;
+-- ALTER TABLE @PREFIX@_shieldway
+-- ADD CONSTRAINT @PREFIX@_shieldway_fk_shieldroute
+-- FOREIGN KEY (relid)
+-- REFERENCES @PREFIX@_shieldroute(relid)
+-- ON DELETE CASCADE;
 
 
 -- Finally, analyze the two tables to get accurate index statistics
