@@ -269,9 +269,10 @@ proc routeGraphics::runInkscape {svg size png} {
     variable inkscapeReady
     waitForInkscape
     set inkscapeReady 0
-#   puts "Send to Inkscape:"
-#   puts               "\"$svg\" --export-area-snap --export-height=$size\
-#                                --export-png=\"$png\""
+    # puts "Is $svg readable? [file readable $svg]"
+    # puts "Send to Inkscape:"
+    # puts               "\"$svg\" --export-area-snap --export-height=$size\
+    #                              --export-png=\"$png\""
     puts $inkscapeChan "\"$svg\" --export-area-snap --export-height=$size\
                                  --export-png=\"$png\""
 }
@@ -2284,7 +2285,8 @@ proc routeGraphics::make_pngs {network ref} {
 	    }
 	}
 
-	{^US:OH:MED:(Sharon)} {
+	{^US:OH:MED:(Sharon)} -
+	{^US:OH:COS:(Jackson)} {
 	    set mod [string toupper [lindex $nwparts 1]]
 	    set num $ref
 	    set pat [findGenericTemplate US:township:square:green $ref]
@@ -2380,6 +2382,33 @@ proc routeGraphics::make_pngs {network ref} {
 	    } else {
 		regsub "^CR " $ref {} num
 		set pat [findGenericTemplate circle $num]
+		set suf {}
+	    }
+	    if {$pat ne ""} {
+		makeSVG $rootnetwork $ref $pat \
+		    {mod num suf}  [list $mod $num $suf]
+		makePNGs $rootnetwork $ref
+		set ok 1
+	    }
+	    if {$ok} {
+		stackModifiers $network $rootnetwork $ref $modifiers
+	    }
+	    
+	}
+
+	{^US:WV:HARP$} {
+
+	    # West Virginia Home Access Road Program
+
+	    # In some counties, mappers have left a spurious 'HARP' on the
+	    # ref. Get rid of it.
+
+	    set mod [string toupper [lindex $nwparts 1]]
+	    if {[regexp {(?:HARP )?(.*)/(.*)} $ref -> num suf]} {
+		set pat house:fraction.svg
+	    } else {
+		regsub "^HARP " $ref {} num
+		set pat [findGenericTemplate house $num]
 		set suf {}
 	    }
 	    if {$pat ne ""} {
@@ -2549,6 +2578,12 @@ db foreach row [string map [list @PREFIX@ $prefix] {
     }
 }
 puts {}
+
+
+routeGraphics::make_pngs US:OH:COS:Jackson 58
+routeGraphics::make_pngs US:WV:HARP 908
+routeGraphics::make_pngs US:WV:HARP 901/8
+
 puts "Close inkscape - we're done with making shield graphics"
 routeGraphics::closeInkscape
 puts "Inkscape closed"
