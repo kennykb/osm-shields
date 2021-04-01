@@ -10,11 +10,22 @@
 -- indices on the 'shieldroute' and 'shieldway' tables that are not
 -- required any more, so get rid of them.
 
+\echo 'Discard primary key constraints on @PREFIX@_shieldroute and'
+\echo '@PREFIX@_shieldway'
+\echo 'Errors in this step may be ignored'
+ALTER TABLE @PREFIX@_shieldroute DROP CONSTRAINT pk_@PREFIX@_shieldroute;
+ALTER TABLE @PREFIX@_shieldway DROP CONSTRAINT pk_@PREFIX@_shieldway;
+
+
 \echo 'Discard unnecessary indices on @PREFIX@_shieldroute'
 \echo 'Errors in this step may be ignored'
 DROP INDEX @PREFIX@_shieldroute_relid_idx;
-\echo 'Discard unnecessary indices in @PREFIX_@shieldway'
+DROP INDEX @PREFIX@_shieldroute_changed_idx;
+
+\echo 'Discard unnecessary indices in @PREFIX@_shieldway'
 \echo 'Errors in this step may be ignored'
+DROP INDEX @PREFIX@_shieldway_relid_idx;
+DROP INDEX @PREFIX@_shieldway_wayidx;
 DROP INDEX @PREFIX@_shieldway_wayid_idx;
 DROP INDEX @PREFIX@_shieldway_wayid_idx1;
 
@@ -33,19 +44,26 @@ PRIMARY KEY (relid);
 CREATE INDEX @PREFIX@_shieldroute_changed_idx
 ON @PREFIX@_shieldroute(changed, network, ref);
 
+-- Don't use a primary key constraint on shieldway. osm2pgsql wants to
+-- create duplicates at least temporarily?
+
+-- \echo 'Add a primary key to @PREFIX@_shieldway'
+-- ALTER TABLE @PREFIX@_shieldway
+-- ADD CONSTRAINT @PREFIX@_shieldway_pk
+-- PRIMARY KEY (relid, idx);
+
 -- Add an index to 'shieldway' - the relation ID and ordinal position
 -- of the way within the relation.
 
-\echo 'Add a primary key to @PREFIX@_shieldway'
-ALTER TABLE @PREFIX@_shieldway
-ADD CONSTRAINT @PREFIX@_shieldway_pk
-PRIMARY KEY (relid, idx);
+\echo 'Index @PREFIX@_shieldway by relation, ordinal, way'
+CREATE INDEX @PREFIX@_shieldway_relid_idx
+ON @PREFIX@_shieldway(relid, idx);
 
 -- Add an index to 'shieldway' to allow rapid lookup of route relations
 -- in which the way participates.
 
 \echo 'Index @PREFIX@_shieldway by way'
-CREATE INDEX @PREFIX@_shieldway_wayidx
+CREATE INDEX @PREFIX@_shieldway_wayid_idx
 ON @PREFIX@_shieldway(wayid, relid, idx);
 
 -- Add a reference constraint to 'shieldway' so that the ways go away
