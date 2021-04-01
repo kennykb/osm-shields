@@ -9,7 +9,11 @@ echo "Running $SCRIPT"
 SCRIPTDIR=$(dirname "$SCRIPT")
 echo "Look for scripts in $SCRIPTDIR"
 pushd $SCRIPTDIR > /dev/null ; SCRIPTDIR=$(pwd -L); popd > /dev/null
-. "$SCRIPTDIR/config.sh"
+if [ -f config.sh ]; then
+    . config.sh
+else
+    . "$SCRIPTDIR/config.sh"
+fi
 LOCKFILE=/var/lock/.osm_shields.${PREFIX}.lock
 
 # Launch a subprocess under exclusive lock

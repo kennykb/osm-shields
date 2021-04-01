@@ -9,7 +9,13 @@ echo "Running $SCRIPT"
 SCRIPTDIR=$(dirname "$SCRIPT")
 echo "Look for scripts in $SCRIPTDIR"
 pushd $SCRIPTDIR > /dev/null ; SCRIPTDIR=$(pwd -L); popd > /dev/null
-. "$SCRIPTDIR/config.sh"
+if [ -f config.sh ]; then
+    echo 'Using local configuration file'
+    . config.sh
+else
+    echo "Using configuration in $SCRIPTDIR/config.sh"
+    . "$SCRIPTDIR/config.sh"
+fi
 
 # Apply the database table prefix to the Lua script
 
