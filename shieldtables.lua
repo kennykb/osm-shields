@@ -61,9 +61,18 @@ end
 
 function ShieldTablesMethods:process_way(object)
 
+    if osm2pgsql.stage ~= 2 then
+        return
+    end
+
+    self.waysdone = self.waysdone + 1
+    
     if object.tags.highway then
         local d = self.w2routes[object.id]
         if d then
+
+	    -- push the way into the table
+
 	    for relid, e in pairs(d) do
 	        for idx, row in pairs(e) do
 		    self.shieldway_tbl:add_row({
@@ -72,6 +81,20 @@ function ShieldTablesMethods:process_way(object)
 		        role = row.role,
 		    })
 	        end
+	    end
+
+	    -- report progress
+	    
+            local now = os.time()
+            if self.tick == nil then
+                self.tick = now
+	        self.starttime = now
+            elseif now >= self.tick + 1 then
+	        local rate = (0.001 * self.waysdone / (now - self.starttime))
+	        io.write(string.format("\rReprocessing: Way(%d %.2fk/s)",
+	                 self.waysdone, rate))
+	        io.flush()
+		self.tick = now
 	    end
 	end
     end
@@ -197,6 +220,10 @@ shieldtables.new = function(prefix)
 	-- at position 'idx'
 
 	w2routes = {},
+
+        -- waysdone is the number of ways processed in phase 2
+
+	waysdone = 0
 
     }
 
