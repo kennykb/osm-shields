@@ -27,7 +27,7 @@ shield clusters.)
 
 As a prerequisite, the user is expected to have a PostgreSQL database
 already set up, with 'slim' tables available. The 
-[workflow](https://switch2osm.org/manually-building-a-tile-server-18-04-lts/)
+[workflow](https://switch2osm.org/serving-tiles/manually-building-a-tile-server-20-04-lts/)
 described at the 'switch2osm' web site is fairly typical of what is
 required. Most people who develop any sort of rendering chain based on
 OpenStreetMap have already performed the necessary steps.
